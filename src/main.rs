@@ -83,12 +83,16 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, size_of::<f32>(), 0 as *const _);
 
     // * Generate a IBO (Index Buffer Object) and bind it
-    // gl::GenBuffers(3, buffers);
+    let mut index_buffer: u32 = 0;
+    gl::GenBuffers(3, &mut index_buffer);
+    gl::BindBuffer(gl::ARRAY_BUFFER, index_buffer);
 
     // * Fill it with data
+    gl::BufferData(gl::ARRAY_BUFFER, byte_size_of_array(indices), indices.as_ptr() as *const gl::types::GLvoid, gl::STATIC_DRAW);
     // * Return the ID of the VAO
 
-    0
+
+    return vao;
 }
 
 fn main() {
