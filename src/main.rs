@@ -59,11 +59,6 @@ fn offset<T>(n: u32) -> *const c_void {
 
 // == // Generate your VAO here
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
-    // Implement me!
-
-    // Also, feel free to delete comments :)
-
-    // This should:
     // * Generate a VAO (Vertice Array Object) and bind it
     let mut vao = 0;
     gl::GenVertexArrays(3, &mut vao);
@@ -89,9 +84,8 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
 
     // * Fill it with data
     gl::BufferData(gl::ARRAY_BUFFER, byte_size_of_array(indices), indices.as_ptr() as *const gl::types::GLvoid, gl::STATIC_DRAW);
+
     // * Return the ID of the VAO
-
-
     return vao;
 }
 
@@ -176,13 +170,12 @@ fn main() {
         // This snippet is not enough to do the exercise, and will need to be modified (outside
         // of just using the correct path), but it only needs to be called once
 
-        /*
         let simple_shader = unsafe {
             shader::ShaderBuilder::new()
-                .attach_file("./path/to/simple/shader.file")
+                .attach_file("./shaders/simple.frag")
                 .link()
         };
-        */
+        unsafe { simple_shader.activate() };
 
         // Used to demonstrate keyboard handling for exercise 2.
         let mut _arbitrary_number = 0.0; // feel free to remove
