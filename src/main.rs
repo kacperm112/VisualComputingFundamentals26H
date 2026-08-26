@@ -61,25 +61,25 @@ fn offset<T>(n: u32) -> *const c_void {
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // * Generate a VAO (Vertice Array Object) and bind it
     let mut vao = 0;
-    gl::GenVertexArrays(3, &mut vao);
+    gl::GenVertexArrays(1, &mut vao);
 
     // * Generate a VBO (Vertice Buffer Object) and bind it
     gl::BindVertexArray(vao);
 
     // * Fill it with data
     let mut buffer: u32 = 0;
-    gl::GenBuffers(3, &mut buffer);
+    gl::GenBuffers(1, &mut buffer);
 
     gl::BindBuffer(gl::ARRAY_BUFFER, buffer);
 
     gl::BufferData(gl::ARRAY_BUFFER, byte_size_of_array(vertices), vertices.as_ptr() as *const gl::types::GLvoid, gl::STATIC_DRAW);
 
     // * Configure a VAP (Vertex Attribute Pointers) for the data and enable it
-    gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, size_of::<f32>(), 0 as *const _);
+    gl::VertexAttribPointer(0, 1, gl::FLOAT, gl::FALSE, size_of::<f32>(), 0 as *const _);
 
     // * Generate a IBO (Index Buffer Object) and bind it
     let mut index_buffer: u32 = 0;
-    gl::GenBuffers(3, &mut index_buffer);
+    gl::GenBuffers(1, &mut index_buffer);
     gl::BindBuffer(gl::ARRAY_BUFFER, index_buffer);
 
     // * Fill it with data
@@ -159,7 +159,11 @@ fn main() {
 
         // == // Set up your VAO around here
 
-        let my_vao = unsafe { 1337 };
+        // float vertices[] = {-0.6, -0.6, 0, 0.6, -0.6, 0, 0, 0.6, 0};
+        let vertices_vec_4: Vec<f32> = vec![-0.6, -0.6, 0.0, 0.6, -0.6, 0.0, 0.0, 0.6, 0.0];
+        let indices_vec_4: Vec<u32> = vec![1, 2, 3];
+
+        let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4); };
 
         // == // Set up your shaders here
 
@@ -174,6 +178,7 @@ fn main() {
             shader::ShaderBuilder::new()
                 .attach_file("./shaders/simple.frag")
                 .link()
+            
         };
         unsafe { simple_shader.activate() };
 
@@ -237,6 +242,7 @@ fn main() {
                 gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 
                 // == // Issue the necessary gl:: commands to draw your scene here
+                
             }
 
             // Display the new color buffer on the display
