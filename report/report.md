@@ -154,5 +154,20 @@ It floats and may as a result move to a different page depending on the layout.
 Enable and use the `pandoc-crossref` filter to reference figures, tables and equations.
 
 # Geometry and Theory
+## Explain the following in your own words:
+1. Why does the depth buffer need to be reset each frame? Describe what you would observe in a scene with a sphere moving rightward, while not clearing the depth buffer:
+The depth buffer holds the depth of each pixel in the scene. Each fragment is compared against the depth buffer's value at that point. If a scene changes, but the depth buffer is not cleared, the pixels in a new scene will be compared against the depth values of the previous frame. That means that a sphere moving rightward would leave a trail of hidden background pixels in its wake, because their depth would still be registering as being hidden behind an object - even if said object has since moved.
+
+2. In which situation can the Fragment Shader be executed multiple times for the same pixel?
+
+3. What are the two most commonly used types of shaders? What are the responsibilites of each of them?
+* Vertex Shader - shader responsible for transforming individual vertices around a scene, as well as projecting the scene onto the camera.
+* Fragment Shader - shader responsible for determining the colour of each fragment
+
+4. Why is it common to use an index buffer to specify which vertices should be connected into triangles, as opposed to relying on the order in which the vertices are specified in the vertex buffer(s)?
+
+
+5. While the last output of gl::VertexAttribPointer() is a pointer, we usually pass it in a null pointer. Describe a situation in which you would pass a non-zero value into this function.
+
 
 # Optional Bonus Challenges
