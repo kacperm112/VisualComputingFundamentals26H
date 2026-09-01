@@ -4,8 +4,8 @@
 # Change them as you see fit.
 title: TDT4195 Exercise 1
 author:
-- Gyrd Bannamule Gyrdsson
-- Gjavleik Britonis Podebusk
+- Kacper Krzysztof Maciejko
+- Clement Jourdin
 date: \today # This is a latex command, ignored for HTML output
 lang: en-US
 papersize: a4
@@ -27,9 +27,46 @@ links-as-notes: true
 This is a HTML-style comment, not visible in the final PDF.
 -->
 
-# Heading
+# Drawing your first triangle
 
-## Subheading
+## (c) 
+Define and instantiate a VAO containing at least 5 distinct triangles using the function you defined in (a). Use the shader pair you loaded in (b) to
+draw the VAO elements.
+
+```rust
+    let vertices_vec_4: Vec<f32> =
+        vec![
+            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+            0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+            0.0,  0.6, 0.0, 1.0, 1.0, 1.0,
+
+            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+            0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+            0.0, 0.9, 0.0, 1.0, 1.0, 1.0,
+
+            -0.8, -0.8, 0.0, 1.0, 0.0, 0.0,
+            -0.4, -0.8, 0.0, 1.0, 0.0, 0.0,
+            -0.6, -0.65, 0.0, 1.0, 0.0, 0.0,
+
+            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+            0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+        ];
+
+        // adding more triangles, we also have to add more indices (3 for each)
+        let indices_vec_4: Vec<u32> = vec![
+            0, 1, 2,
+            3, 4, 5,
+            6, 7, 8,
+            0, 9, 3,
+            1, 10, 2,
+            ];
+```
+
+![
+    5 distinct triangles
+](images/task1triangles.png)
+
+
 
 ### Subsubheading
 
@@ -39,10 +76,7 @@ This is the same paragraph.
 This is a new paragraph, with *italic*, **bold**, and `inline code` formatting.
 It is possible to use special classes to format text: [this is a test]{.smallcaps}.
 
-```rust
-//this is a code block with rust syntax highlighting
-println!("Hello, {}", 42);
-```
+
 
 [This](https://www.ntnu.no) is a link.
 [This][] is also a link. <!-- defined below -->
@@ -118,3 +152,7 @@ It floats and may as a result move to a different page depending on the layout.
 ](images/logo.png)
 
 Enable and use the `pandoc-crossref` filter to reference figures, tables and equations.
+
+# Geometry and Theory
+
+# Optional Bonus Challenges
