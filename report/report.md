@@ -120,7 +120,7 @@ Using multiple entry types (for example passing a color of vertex alongside its 
 ```
 
 ### d)
-1. Mirror/flip the whole scene both horizontally and vertically at the same time
+#### i)
 ![Original scene](images/task2dnotflipped.png)
 ![Flipped scene](images/task2dflipped.png)
 Flipping of the scene was achieved by multiplying the position vector by a transformation matrix (scaling the x and y axis by -1), as shown in the code below:
@@ -142,9 +142,9 @@ void main()
     OUT.color = color;
 }
 ```
-2. Change the colour of the drawn triangle(s) to a different colour
+#### ii)
 The result of the colour change is visible in the images detailing the flipping part of the task already.
-We have achieved this, by modifying the Vertex Shader to not only take the position of vertex as argument, but its colour as well. Each vertex now has six floating point values describind it, instead of three: the first three being responsible for its position, and the last three for its colour in the rgb model. The vertex shader then passes the colours to the fragment shader:
+We have achieved this by modifying the Vertex Shader to not only take the position of vertex as argument, but its colour as well. Each vertex now has six floating point values describind it, instead of three: the first three being responsible for its position, and the last three for its colour in the rgb model. The vertex shader then passes the colours to the fragment shader:
 
 ```rust
 // Vertex Shader
