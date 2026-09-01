@@ -145,6 +145,53 @@ void main()
 }
 ```
 2. Change the colour of the drawn triangle(s) to a different colour
+The result of the colour change is visible in the images detailing the flipping part of the task already.
+We have achieved this, by modifying the Vertex Shader to not only take the position of vertex as argument, but its colour as well. Each vertex now has six floating point values describind it, instead of three: the first three being responsible for its position, and the last three for its colour in the rgb model. The vertex shader then passes the colours to the fragment shader:
+
+```rust
+// Vertex Shader
+#version 430 core
+
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 color;
+
+out VS_OUTPUT {
+    vec3 color;
+} OUT;
+
+void main()
+{
+    mat3x3 matrix = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0}};
+    vec3 newPosition = matrix*position;
+    gl_Position = vec4(newPosition, 1.0f);
+    OUT.color = color;
+}
+
+// Fragment Shader
+#version 430 core
+
+in VS_OUTPUT {
+    vec3 color;
+} IN;
+
+out vec4 color;
+
+void main()
+{
+    color = vec4(IN.color, 1.0f);
+}
+```
+Modifying the colour of all vertices in the scene could also be done in an easier way, by simply modifying the colour in the Fragment Shader itself:
+```rust
+#version 430 core
+
+out vec4 color;
+
+void main()
+{
+    color = vec4(1.0f, 1.0f, 1.0f, 1.0f); // modifying colour here would result in change of colour for all triangles in scene
+}
+```
 
 
 # Optional Bonus Challenges
