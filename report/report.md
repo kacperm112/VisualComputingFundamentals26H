@@ -5,7 +5,7 @@
 title: TDT4195 Exercise 1
 author:
 - Kacper Krzysztof Maciejko
-- Clement Jourdin
+- Clément Jourdin
 date: \today # This is a latex command, ignored for HTML output
 lang: en-US
 papersize: a4
@@ -27,7 +27,7 @@ links-as-notes: true
 This is a HTML-style comment, not visible in the final PDF.
 -->
 
-# Drawing your first triangle
+# Tasl 1: Drawing your first triangle
 
 ## (c) 
 Define and instantiate a VAO containing at least 5 distinct triangles using the function you defined in (a). Use the shader pair you loaded in (b) to
@@ -68,91 +68,11 @@ draw the VAO elements.
 
 
 
-### Subsubheading
+## Task 2: Geometry and Theory
 
-This is a paragraph.
-This is the same paragraph.
+### a)
+![A triangle experiencing clipping](images/task2clippedTriangle.png)
 
-This is a new paragraph, with *italic*, **bold**, and `inline code` formatting.
-It is possible to use special classes to format text: [this is a test]{.smallcaps}.
+The triangle is truncated on 2 sides because 2 of its vertices have a coordinate which is outside of the coordinate system we are working on (vertices 0 and 2 have respectively -1.2 and 1.2 as their z coordinate, and the coordinate system ranges from -1 to 1). This phenomenon is called **clipping** and it ensures that images behind the camera are not visible in the rendered image.
 
-
-
-[This](https://www.ntnu.no) is a link.
-[This][] is also a link. <!-- defined below -->
-This[^this_is_a_unique_footnote_label] is a footnote. <!-- defined below -->
-This^[Footnotes can also be written inline] is also a footnote.
-
-
-[This]: https://www.uio.no
-[^this_is_a_unique_footnote_label]: In footnotes you can write anything tangentially related.
-
-* This
-* is
-* a
-* unordered
-* list
-
-1. This
-1. is
-1. a
-1. ordered
-1. list
-    a. with
-    a. sub
-    a. list
-
-       with multiple paragraphs
-
-This is still on the first page
-
-`\clearpage`{=latex}
-
-<!--
-Above is a raw LaTeX statement.
-Those are included when exporting to LaTeX or PDF, and ignored when exporting to HTML.
--->
-
-This is on the second page
-
-i) Roman ordered list
-i) Roman ordered list
-i) Roman ordered list
-
-This
-: is a definition
-
-> this is a
-block quote
-
-
-This is a paragraph with _inline_ \LaTeX\ style math: $\frac{1}{2}$.
-Below is a math _block_:
-
-$$
-    \int_{a}^{b} f(x)dx
-$$
-
-
-| This | is  | a   | table |
-| ---- | --- | --- | ----- |
-| 1    | 2   | 3   | 4     |
-| 5    | 6   | 7   | 8     |
-
-: This is a table caption
-
-This is an inline image with a fixed height:
-![](images/logo.png){height=5em}
-
-Below is a _figure_ (i.e. an image with a caption).
-It floats and may as a result move to a different page depending on the layout.
-
-![
-    Image with caption
-](images/logo.png)
-
-Enable and use the `pandoc-crossref` filter to reference figures, tables and equations.
-
-# Geometry and Theory
-
-# Optional Bonus Challenges
+### b)
