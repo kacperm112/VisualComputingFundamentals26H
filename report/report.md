@@ -34,32 +34,31 @@ Define and instantiate a VAO containing at least 5 distinct triangles using the 
 draw the VAO elements.
 
 ```rust
-    let vertices_vec_4: Vec<f32> =
-        vec![
-            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
-            0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
-            0.0,  0.6, 0.0, 1.0, 1.0, 1.0,
+let vertices_vec_4: Vec<f32> = vec![
+    -0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+    0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+    0.0,  0.6, 0.0, 1.0, 1.0, 1.0,
 
-            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
-            0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
-            0.0, 0.9, 0.0, 1.0, 1.0, 1.0,
+    -0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+    0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+    0.0, 0.9, 0.0, 1.0, 1.0, 1.0,
 
-            -0.8, -0.8, 0.0, 1.0, 0.0, 0.0,
-            -0.4, -0.8, 0.0, 1.0, 0.0, 0.0,
-            -0.6, -0.65, 0.0, 1.0, 0.0, 0.0,
+    -0.8, -0.8, 0.0, 1.0, 0.0, 0.0,
+    -0.4, -0.8, 0.0, 1.0, 0.0, 0.0,
+    -0.6, -0.65, 0.0, 1.0, 0.0, 0.0,
 
-            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
-            0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
-        ];
+    -0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+    0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+];
 
-        // adding more triangles, we also have to add more indices (3 for each)
-        let indices_vec_4: Vec<u32> = vec![
-            0, 1, 2,
-            3, 4, 5,
-            6, 7, 8,
-            0, 9, 3,
-            1, 10, 2,
-            ];
+// adding more triangles, we also have to add more indices (3 for each)
+let indices_vec_4: Vec<u32> = vec![
+    0, 1, 2,
+    3, 4, 5,
+    6, 7, 8,
+    0, 9, 3,
+    1, 10, 2,
+    ];
 ```
 
 ![
@@ -76,3 +75,19 @@ draw the VAO elements.
 The triangle is truncated on 2 sides because 2 of its vertices have a coordinate which is outside of the coordinate system we are working on (vertices 0 and 2 have respectively -1.2 and 1.2 as their z coordinate, and the coordinate system ranges from -1 to 1). This phenomenon is called **clipping** and it ensures that images behind the camera are not visible in the rendered image.
 
 ### b)
+```rust
+let vertices2_vec_4: Vec<f32> =
+    vec![
+        0.6, -0.8, -1.2, 0.0, 0.0, 1.0,
+        0.0, 0.4, 0.0, 0.0, 0.0, 1.0,
+        -0.8, -0.2, 1.2, 0.0, 0.0, 1.0,
+    ];
+
+let indices2_vec_4: Vec<u32> = vec![
+    0, 2, 1,
+    ];
+```
+
+![No triangle](images/task2noTriangle.png)
+
+When we put the vertices clockwise instead of counterclockwise in the index buffer, no triangle is displayed on the screen. This can be explained by the fact that the ```gl::DrawElements``` function supplies the points in counter-clockwise order. Therefore, if the points we give to it are in a clockwise order, the back face of the triangle is rendered on the screen.
