@@ -30,8 +30,6 @@ This is a HTML-style comment, not visible in the final PDF.
 # Tasl 1: Drawing your first triangle
 
 ## (c) 
-Define and instantiate a VAO containing at least 5 distinct triangles using the function you defined in (a). Use the shader pair you loaded in (b) to
-draw the VAO elements.
 
 ```rust
 let vertices_vec_4: Vec<f32> = vec![

@@ -1,15 +1,55 @@
-# VisualComputingFundamentals26H
+# Gloom-rs
 
-## Task 1: Drawing your first triangle
+To get started, make sure you have `git`, `cargo` and, `rustc` installed and available.
 
-### c)
-Some vertices are being used in different triangles. For example, vertice 0 is used in both the 1st and the 4th triangles. We chose applied different colors to each triangle to make them visible even though they are interconnected.
+	git clone https://github.com/pbsds/gloom-rs
+	cd gloom-rs
+	cargo run
 
-## Task 2: Geometry and Theory
 
-### a)
-![alt text](image.png)
+## GLM
 
-The triangle is truncated on 2 sides because 2 of its vertices have a coordinate which is outside of the coordinate system we are working on (vertices 0 and 2 have respectively -1.2 and 1.2 as their z coordinate, and the coordinate system ranges from -1 to 1). This phenomenon is called **clipping** and it ensures that images behind the camera are not visible in the rendered image.
+We use a variant of GLM known as [nalgebra-glm](https://docs.rs/nalgebra-glm/0.15.0/nalgebra_glm/), which differs *slightly* from the standard GLM library.
 
-### b)
+
+## Report
+
+You're free to write your report any way you'd like, as long as it is delivered as a PDF file.
+
+To spread the gospel, I have included a `pandoc` report skeleton in the `report` folder.
+To use pandoc, make sure you have `pandoc` installed along with a supported latex engine.
+Make sure it works before using it to write your report.
+
+## Cybele
+
+If you're using the lab computers in Cybele, you will be using a network-mounted home directory which is subject to both low quotas and high latency.
+To speed up your work we highly reccomend running the following, to put the build directory in RAM rather than on disk:
+
+```shell
+test -d target/ && rm -rf target/
+ln -s /dev/shm target
+```
+
+## Code delivery
+
+We want the following files and folders to be delivered in a ZIP file:
+
+* `resources`
+* `shaders`
+* `src`
+* `Cargo.lock`
+* `Cargo.toml`
+
+**Important:** Do not include the `target` folder!
+
+To automatically make an archive (`source.zip`) ready for uploading to blackboard:
+
+* Make sure any extra assets or resources you might have added are located in the `resources` folder
+* Then run either:
+	* `./create_code_archive_for_blackboard_LINUX.sh`
+	* `create_code_archive_for_blackboard_WINDOWS.bat`.
+
+This zip script will explicitly ignore the `target` folder, and the following two of the files given as a handout for exercise 3 (just to save space):
+
+* `resources/helicopter.obj`
+* `resources/lunarsurface.obj`
