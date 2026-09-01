@@ -97,6 +97,7 @@ When we put the vertices clockwise instead of counterclockwise in the index buff
 The depth buffer holds the depth of each pixel in the scene. Each fragment is compared against the depth buffer's value at that point. If a scene changes, but the depth buffer is not cleared, the pixels in a new scene will be compared against the depth values of the previous frame. That means that a sphere moving rightward would leave a trail of hidden background pixels in its wake, because their depth would still be registering as being hidden behind an object - even if said object has since moved.
 
 2. In which situation can the Fragment Shader be executed multiple times for the same pixel?
+The Fragment Shader can be executed multiple times for the same pixel when several points share the same x and y coordinates but don't have the same depth (z coordinate). Only the point that is most on top of the scene (has the bigger z coordinate) will be shown on the finale scene, but the Fragment Shader is still called for every point.
 
 3. What are the two most commonly used types of shaders? What are the responsibilites of each of them?
 * Vertex Shader - shader responsible for transforming individual vertices around a scene, as well as projecting the scene onto the camera.
