@@ -106,6 +106,17 @@ The depth buffer holds the depth of each pixel in the scene. Each fragment is co
 
 
 5. While the last output of gl::VertexAttribPointer() is a pointer, we usually pass it in a null pointer. Describe a situation in which you would pass a non-zero value into this function.
+Using multiple entry types (for example passing a color of vertex alongside its position) would cause passing a non-zero value into this function. This is shown in the example below.
+```rust
+    gl::VertexAttribPointer(
+        1,
+        3,
+        gl::FLOAT,
+        gl::FALSE,
+        (6 * size_of::<f32>()) as gl::types::GLint,
+        (3 * size_of::<f32>()) as *const gl::types::GLvoid,
+    );
+```
 
 
 # Optional Bonus Challenges
