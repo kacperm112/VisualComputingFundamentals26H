@@ -9,8 +9,8 @@ out VS_OUTPUT {
 
 void main()
 {
-    // mat3x3 matrix = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0}};
-    // vec3 newPosition = matrix*position;
-    gl_Position = vec4(position, 1.0f);
+    mat3x3 matrix = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0}};
+    vec3 newPosition = matrix*position;
+    gl_Position = vec4(newPosition, 1.0f);
     OUT.color = color;
 }
