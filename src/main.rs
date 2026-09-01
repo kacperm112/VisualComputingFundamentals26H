@@ -181,10 +181,17 @@ fn main() {
                 -0.6, -0.6, 0.0,
                 0.6, -0.6, 0.0,
                 0.0,  0.6, 0.0,
+
+                -0.6, 0.6, 0.0,
+                0.6, 0.6, 0.0,
+                0.0, 0.9, 0.0,
             ];
 
         // adding more triangles, we also have to add more indices (3 for each)
-        let indices_vec_4: Vec<u32> = vec![0, 1, 2];
+        let indices_vec_4: Vec<u32> = vec![
+            0, 1, 2,
+            3, 4, 5,
+            ];
 
 
         let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
