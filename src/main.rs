@@ -73,7 +73,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     gl::BufferData(
         gl::ARRAY_BUFFER,
         byte_size_of_array(vertices),
-        vertices.as_ptr() as *const c_void,
+        vertices.as_ptr() as *const c_void, // c_void just means pointer to generic data
         gl::STATIC_DRAW,    );
 
     // Position: x, y, z
@@ -82,7 +82,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         3,
         gl::FLOAT,
         gl::FALSE,
-        3 * size_of::<f32>(),
+        3 * size_of::<f32>(), // 3 because each vertex contains x,y,x attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
@@ -90,7 +90,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
 
     // Index buffer
     let mut index_buffer = 0;
-    gl::GenBuffers(1, &mut index_buffer);
+    gl::GenBuffers(1, &mut index_buffer); // count=1 bc we only generate 1 index
     gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, index_buffer);
 
     gl::BufferData(
