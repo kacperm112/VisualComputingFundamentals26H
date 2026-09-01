@@ -91,3 +91,5 @@ let indices2_vec_4: Vec<u32> = vec![
 ![No triangle](images/task2noTriangle.png)
 
 When we put the vertices clockwise instead of counterclockwise in the index buffer, no triangle is displayed on the screen. This can be explained by the fact that the ```gl::DrawElements``` function supplies the points in counter-clockwise order. Therefore, if the points we give to it are in a clockwise order, the back face of the triangle is rendered on the screen.
+
+### d)

@@ -84,7 +84,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         3,
         gl::FLOAT,
         gl::FALSE,
-        6 * size_of::<f32>(), // 3 because each vertex contains x,y,x attributes and distanse to next is 12 bytes
+        6 * size_of::<f32>(), // 6 because each vertex contains x,y,x,r,g,b attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
@@ -225,7 +225,7 @@ fn main() {
 
         // adding more triangles, we also have to add more indices (3 for each)
         let indices2_vec_4: Vec<u32> = vec![
-            0, 2, 1,
+            0, 1, 2,
             ];
 
 
@@ -315,15 +315,15 @@ fn main() {
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
                 // Task 1
-                // gl::BindVertexArray(my_vao);
+                gl::BindVertexArray(my_vao);
 
 
-                // gl::DrawElements(
-                //     gl::TRIANGLES,
-                //     indices_vec_4.len() as i32,
-                //     gl::UNSIGNED_INT,
-                //     ptr::null(),
-                // );
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    indices_vec_4.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
                 
                 // Task 2
                 gl::BindVertexArray(my_vao2);
