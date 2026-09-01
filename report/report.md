@@ -103,6 +103,7 @@ The depth buffer holds the depth of each pixel in the scene. Each fragment is co
 * Fragment Shader - shader responsible for determining the colour of each fragment
 
 4. Why is it common to use an index buffer to specify which vertices should be connected into triangles, as opposed to relying on the order in which the vertices are specified in the vertex buffer(s)?
+The practice comes from the fact that vertices can be used multiple times over different triangles. Using an index buffer enables us to define the vertices once, and combining them together by using their index in the VBO. This can save memory usage, if executed correctly.
 
 
 5. While the last output of gl::VertexAttribPointer() is a pointer, we usually pass it in a null pointer. Describe a situation in which you would pass a non-zero value into this function.
