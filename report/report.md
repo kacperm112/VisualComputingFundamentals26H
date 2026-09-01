@@ -119,5 +119,30 @@ Using multiple entry types (for example passing a color of vertex alongside its 
     );
 ```
 
+### d)
+1. Mirror/flip the whole scene both horizontally and vertically at the same time
+![Original scene](images/task2dnotflipped.png)
+![Flipped scene](images/task2dflipped.png)
+Flipping of the scene was achieved by multiplying the position vector by a transformation matrix (scaling the x and y axis by -1), as shown in the code below:
+```rust
+#version 430 core
+
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 color;
+
+out VS_OUTPUT {
+    vec3 color;
+} OUT;
+
+void main()
+{
+    mat3x3 matrix = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0}, {0.0, 0.0, 1.0}};
+    vec3 newPosition = matrix*position;
+    gl_Position = vec4(newPosition, 1.0f);
+    OUT.color = color;
+}
+```
+2. Change the colour of the drawn triangle(s) to a different colour
+
 
 # Optional Bonus Challenges
