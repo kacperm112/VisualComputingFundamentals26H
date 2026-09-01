@@ -76,17 +76,28 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         vertices.as_ptr() as *const c_void, // c_void just means pointer to generic data
         gl::STATIC_DRAW,    );
 
+    gl::EnableVertexAttribArray(0);
+
     // Position: x, y, z
     gl::VertexAttribPointer(
         0,
         3,
         gl::FLOAT,
         gl::FALSE,
-        3 * size_of::<f32>(), // 3 because each vertex contains x,y,x attributes and distanse to next is 12 bytes
+        6 * size_of::<f32>(), // 3 because each vertex contains x,y,x attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
-    gl::EnableVertexAttribArray(0);
+    gl::EnableVertexAttribArray(1);
+    gl::VertexAttribPointer(
+        1,
+        3,
+        gl::FLOAT,
+        gl::FALSE,
+        (6 * size_of::<f32>()) as gl::types::GLint,
+        (3 * size_of::<f32>()) as *const gl::types::GLvoid,
+    );
+
 
     // Index buffer
     let mut index_buffer = 0;
@@ -178,9 +189,9 @@ fn main() {
         // here we can add more triangles, simply in the same vec
         let vertices_vec_4: Vec<f32> =
             vec![
-                -0.6, -0.6, 0.0,
-                0.6, -0.6, 0.0,
-                0.0,  0.6, 0.0,
+                -0.6, -0.6, 0.0, 1.0, 0.0, 0.0,
+                0.6, -0.6, 0.0, 1.0, 0.0, 0.0,
+                0.0,  0.6, 0.0, 1.0, 0.0, 0.0,
 
                 -0.6, 0.6, 0.0,
                 0.6, 0.6, 0.0,
@@ -285,6 +296,7 @@ fn main() {
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
                 gl::BindVertexArray(my_vao);
+
 
                 gl::DrawElements(
                     gl::TRIANGLES,
