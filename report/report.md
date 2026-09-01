@@ -93,21 +93,22 @@ let indices2_vec_4: Vec<u32> = vec![
 When we put the vertices clockwise instead of counterclockwise in the index buffer, no triangle is displayed on the screen. This can be explained by the fact that the ```gl::DrawElements``` function supplies the points in counter-clockwise order. Therefore, if the points we give to it are in a clockwise order, the back face of the triangle is rendered on the screen.
 
 ### c) Geometry and Theory
-1. Why does the depth buffer need to be reset each frame? Describe what you would observe in a scene with a sphere moving rightward, while not clearing the depth buffer:
+#### i)
 The depth buffer holds the depth of each pixel in the scene. Each fragment is compared against the depth buffer's value at that point. If a scene changes, but the depth buffer is not cleared, the pixels in a new scene will be compared against the depth values of the previous frame. That means that a sphere moving rightward would leave a trail of hidden background pixels in its wake, because their depth would still be registering as being hidden behind an object - even if said object has since moved.
 
-2. In which situation can the Fragment Shader be executed multiple times for the same pixel?
+#### ii)
 The Fragment Shader can be executed multiple times for the same pixel when several points share the same x and y coordinates but don't have the same depth (z coordinate). Only the point that is most on top of the scene (has the bigger z coordinate) will be shown on the finale scene, but the Fragment Shader is still called for every point.
 
-3. What are the two most commonly used types of shaders? What are the responsibilites of each of them?
+#### iii)
+The two most commonly used types of Shaders are:
 * Vertex Shader - shader responsible for transforming individual vertices around a scene, as well as projecting the scene onto the camera.
 * Fragment Shader - shader responsible for determining the colour of each fragment
 
-4. Why is it common to use an index buffer to specify which vertices should be connected into triangles, as opposed to relying on the order in which the vertices are specified in the vertex buffer(s)?
+#### iv)
 The practice comes from the fact that vertices can be used multiple times over different triangles. Using an index buffer enables us to define the vertices once, and combining them together by using their index in the VBO. This can save memory usage, if executed correctly.
 
 
-5. While the last output of gl::VertexAttribPointer() is a pointer, we usually pass it in a null pointer. Describe a situation in which you would pass a non-zero value into this function.
+#### v)
 Using multiple entry types (for example passing a color of vertex alongside its position) would cause passing a non-zero value into this function. This is shown in the example below.
 ```rust
     gl::VertexAttribPointer(
