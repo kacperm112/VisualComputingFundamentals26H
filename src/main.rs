@@ -175,6 +175,7 @@ fn main() {
         // == // Set up your VAO around here
 
         // float vertices[] = {-0.6, -0.6, 0, 0.6, -0.6, 0, 0, 0.6, 0};
+        // here we can add more triangles, simply in the same vec
         let vertices_vec_4: Vec<f32> =
             vec![
                 -0.6, -0.6, 0.0,
@@ -182,6 +183,7 @@ fn main() {
                 0.0,  0.6, 0.0,
             ];
 
+        // adding more triangles, we also have to add more indices (3 for each)
         let indices_vec_4: Vec<u32> = vec![0, 1, 2];
 
 
