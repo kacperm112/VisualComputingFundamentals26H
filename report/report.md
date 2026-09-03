@@ -27,7 +27,7 @@ links-as-notes: true
 This is a HTML-style comment, not visible in the final PDF.
 -->
 
-# Tasl 1: Drawing your first triangle
+# Task 1: Drawing your first triangle
 
 ## (c) 
 
@@ -187,9 +187,7 @@ out vec4 color;
 
 void main()
 {
-    color = vec4(1.0f, 1.0f, 1.0f, 1.0f); // modifying colour here would result in change of colour for all triangles in scene
+    color = vec4(1.0f, 1.0f, 1.0f, 1.0f); // modifying colour here would result in 
+    // change of colour for all triangles in scene
 }
 ```
-
-
-# Optional Bonus Challenges
