@@ -30,6 +30,17 @@ This is a HTML-style comment, not visible in the final PDF.
 # Task 1: Per-Vertex Colors
 
 ## (a) 
+Most of this task we have already accidentaly accomplished in Assignment 1. What needed to be changed was adding the alpha value, instead of setting it to 1.0 in the fragment shader as done previously.
+
+#### Modifying create_vao
+Function creating VAO needed to be modified to accept each vertice containing 7 floating point values (3 describing positon, 4 describing colour). To do that gl::VertexAttribPointer needed to be modified to be of size of 28 bytes instead of the previous 12. Additionally, it needed to be called twice, once for the position values, and once with colour values, with the last passed value being an offset of 3 bytes (as described in Assignment 1)
+
+#### Modifying shaders
+Vertex shaders needed to be modified to pass a vector containing color to the fragment shader. Fragment shader needed to be modified to take that as input instead of colour being set once and for all in its code.
+
+![
+    Triangles with vertices of different colours
+](images/ass2task1opacity.png)
 
 
 
@@ -42,3 +53,27 @@ This is a HTML-style comment, not visible in the final PDF.
 ## Task 3: The Affine Transformation Matrix
 
 ### (a)
+Completing this task required modifying the Vertex Shader in a manner shown below:
+```rust
+#version 430 core
+
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec4 color;
+
+out VS_OUTPUT {
+    vec4 color;
+} OUT;
+
+void main()
+{
+
+    mat4x4 matrix = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
+    gl_Position = matrix * vec4(position, 1.0f);
+    OUT.color = color;
+}
+
+```
+The vertices multiplied by the 4x4 identity matrix result in no changes being made to the original result:
+![
+    Result of multiplication by identity matrix
+](images/ass2task3a.png)
