@@ -33,12 +33,42 @@ This is a HTML-style comment, not visible in the final PDF.
 
 
 
-## Task 2: Alpha Blending and Depth
+# Task 2: Alpha Blending and Depth
 
-### (a)
+## (a)
+```rust
+let vertices_vec_4: Vec<f32> = vec![
+    -0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+    0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
+    0.0,  0.6, 0.0, 1.0, 1.0, 1.0,
+
+    -0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+    0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+    0.0, 0.9, 0.0, 1.0, 1.0, 1.0,
+
+    -0.8, -0.8, 0.0, 1.0, 0.0, 0.0,
+    -0.4, -0.8, 0.0, 1.0, 0.0, 0.0,
+    -0.6, -0.65, 0.0, 1.0, 0.0, 0.0,
+
+    -0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+    0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+];
+
+// adding more triangles, we also have to add more indices (3 for each)
+let indices_vec_4: Vec<u32> = vec![
+    0, 1, 2,
+    3, 4, 5,
+    6, 7, 8,
+    0, 9, 3,
+    1, 10, 2,
+    ];
+```
+
+![Three transparent triangles overlapping](images/Assignment2Task2OverlappingTriangles.png)
+
+The closest triangles have been rendered more transparent than the furthest ones to display that the triangles are on top of each other.
 
 
+# Task 3: The Affine Transformation Matrix
 
-## Task 3: The Affine Transformation Matrix
-
-### (a)
+## (a)
