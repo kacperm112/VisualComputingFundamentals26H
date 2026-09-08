@@ -185,10 +185,17 @@ fn main() {
 
         // == // Set up your VAO around here
 
+<<<<<<< HEAD
 
         // Assignment 2 Task 1 triangles
         let vertices_different_colors: Vec<f32> = vec![
             -0.6, -0.6, 0.0, 1.0, 0.0, 1.0, 0.0,
+=======
+        // Triangles for Assignment 1 Task 1
+        // here we can add more triangles, simply in the same vec
+        let vertices_vec_4: Vec<f32> = vec![
+            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
+>>>>>>> 634f91d (Assignment 2, Task 2, question a))
             0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
             0.0,  0.6, 0.0, 1.0, 1.0, 0.0, 1.0,
 
@@ -205,9 +212,57 @@ fn main() {
             0, 1, 2,
             3, 4, 5,
             6, 7, 8,
+<<<<<<< HEAD
         ];
 
         let vao_different_colors = unsafe{create_vao(&vertices_different_colors, &indices_different_colors)};
+=======
+            0, 9, 3,
+            1, 10, 2,
+            ];
+
+
+        let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
+
+        // Triangles for Assignment 1 Task 2
+        let vertices2_vec_4: Vec<f32> = vec![
+            0.6, -0.8, -1.2, 0.0, 0.0, 1.0, 1.0,
+            0.0, 0.4, 0.0, 0.0, 0.0, 1.0, 1.0,
+            -0.8, -0.2, 1.2, 0.0, 0.0, 1.0, 1.0,
+        ];
+
+        // adding more triangles, we also have to add more indices (3 for each)
+        let indices2_vec_4: Vec<u32> = vec![
+            0, 1, 2,
+            ];
+
+        let my_vao2 = unsafe { create_vao(&vertices2_vec_4, &indices2_vec_4) };
+>>>>>>> 634f91d (Assignment 2, Task 2, question a))
+
+        // Triangles for Assignment 2 Task 2
+        let vertices3_vec_4: Vec<f32> = vec![
+            -0.6, -0.6, 0.9, 1.0, 0.0, 0.0, 0.7,
+            0.6, -0.6, 0.9, 1.0, 0.0, 0.0, 0.7,
+            0.0,  0.6, 0.9, 1.0, 0.0, 0.0, 0.7,
+
+            -0.4, -0.4, 0.5, 0.0, 1.0, 0.0, 0.5,
+            0.4, -0.4, 0.5, 0.0, 1.0, 0.0, 0.5,
+            0.0, 0.4, 0.5, 0.0, 1.0, 0.0, 0.5,
+
+            -0.2, -0.2, 0.0, 0.0, 0.0, 1.0, 0.3,
+            0.2, -0.2, 0.0, 0.0, 0.0, 1.0, 0.3,
+            0.0, 0.2, 0.0, 0.0, 0.0, 1.0, 0.3,
+        ];
+
+        // adding more triangles, we also have to add more indices (3 for each)
+        let indices3_vec_4: Vec<u32> = vec![
+            0, 1, 2,
+            3, 4, 5,
+            6, 7, 8,
+            ];
+
+
+        let my_vao3 = unsafe { create_vao(&vertices3_vec_4, &indices3_vec_4) };
 
 
         // == // Set up your shaders here
@@ -292,6 +347,7 @@ fn main() {
 
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
+<<<<<<< HEAD
 
                 gl::BindVertexArray(vao_different_colors);
 
@@ -299,6 +355,37 @@ fn main() {
                 gl::DrawElements(
                     gl::TRIANGLES,
                     indices_different_colors.len() as i32,
+=======
+                // Assignment 1 Task 1
+                // gl::BindVertexArray(my_vao);
+
+
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     indices_vec_4.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
+                
+                // // Assignment 1 Task 2
+                // gl::BindVertexArray(my_vao2);
+
+
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     indices_vec_4.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
+
+                // Assignment 2 Task 1
+                gl::BindVertexArray(my_vao3);
+
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    indices_vec_4.len() as i32,
+>>>>>>> 634f91d (Assignment 2, Task 2, question a))
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
