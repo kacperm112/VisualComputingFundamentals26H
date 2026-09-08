@@ -84,17 +84,17 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         3,
         gl::FLOAT,
         gl::FALSE,
-        6 * size_of::<f32>(), // 6 because each vertex contains x,y,x,r,g,b attributes and distanse to next is 12 bytes
+        7 * size_of::<f32>(), // 6 because each vertex contains x,y,x,r,g,b,alpha attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
     gl::EnableVertexAttribArray(1);
     gl::VertexAttribPointer(
         1,
-        3,
+        4,
         gl::FLOAT,
         gl::FALSE,
-        (6 * size_of::<f32>()) as gl::types::GLint,
+        (7 * size_of::<f32>()) as gl::types::GLint,
         (3 * size_of::<f32>()) as *const gl::types::GLvoid,
     );
 
@@ -188,20 +188,20 @@ fn main() {
         // Triangles for Task 1
         // here we can add more triangles, simply in the same vec
         let vertices_vec_4: Vec<f32> = vec![
-            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
-            0.6, -0.6, 0.0, 1.0, 1.0, 1.0,
-            0.0,  0.6, 0.0, 1.0, 1.0, 1.0,
+            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
+            0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
+            0.0,  0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
 
-            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
-            0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
-            0.0, 0.9, 0.0, 1.0, 1.0, 1.0,
+            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
+            0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
+            0.0, 0.9, 0.0, 1.0, 1.0, 1.0, 0.0,
 
-            -0.8, -0.8, 0.0, 1.0, 0.0, 0.0,
-            -0.4, -0.8, 0.0, 1.0, 0.0, 0.0,
-            -0.6, -0.65, 0.0, 1.0, 0.0, 0.0,
+            -0.8, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
+            -0.4, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
+            -0.6, -0.65, 0.0, 1.0, 0.0, 0.0, 0.0,
 
-            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
-            0.5, 0.4, 0.0, 1.0, 1.0, 1.0,
+            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
+            0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
@@ -218,9 +218,9 @@ fn main() {
 
         // Triangles for Task 2
         let vertices2_vec_4: Vec<f32> = vec![
-            0.6, -0.8, -1.2, 0.0, 0.0, 1.0,
-            0.0, 0.4, 0.0, 0.0, 0.0, 1.0,
-            -0.8, -0.2, 1.2, 0.0, 0.0, 1.0,
+            0.6, -0.8, -1.2, 0.0, 0.0, 1.0, 1.0,
+            0.0, 0.4, 0.0, 0.0, 0.0, 1.0, 1.0,
+            -0.8, -0.2, 1.2, 0.0, 0.0, 1.0, 1.0,
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
