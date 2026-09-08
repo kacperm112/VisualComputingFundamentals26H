@@ -185,51 +185,6 @@ fn main() {
 
         // == // Set up your VAO around here
 
-        // Triangles for Task 1
-        // here we can add more triangles, simply in the same vec
-        // let vertices_vec_4: Vec<f32> = vec![
-        //     -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-        //     0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-        //     0.0,  0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-
-        //     -0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-        //     0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-        //     0.0, 0.9, 0.0, 1.0, 1.0, 1.0, 0.0,
-
-        //     -0.8, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
-        //     -0.4, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
-        //     -0.6, -0.65, 0.0, 1.0, 0.0, 0.0, 0.0,
-
-        //     -0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
-        //     0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
-        // ];
-
-        // // adding more triangles, we also have to add more indices (3 for each)
-        // let indices_vec_4: Vec<u32> = vec![
-        //     0, 1, 2,
-        //     3, 4, 5,
-        //     6, 7, 8,
-        //     0, 9, 3,
-        //     1, 10, 2,
-        //     ];
-
-
-        // let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
-
-        // // Triangles for Task 2
-        // let vertices2_vec_4: Vec<f32> = vec![
-        //     0.6, -0.8, -1.2, 0.0, 0.0, 1.0, 1.0,
-        //     0.0, 0.4, 0.0, 0.0, 0.0, 1.0, 1.0,
-        //     -0.8, -0.2, 1.2, 0.0, 0.0, 1.0, 1.0,
-        // ];
-
-        // // adding more triangles, we also have to add more indices (3 for each)
-        // let indices2_vec_4: Vec<u32> = vec![
-        //     0, 1, 2,
-        //     ];
-
-
-        // let my_vao2 = unsafe { create_vao(&vertices2_vec_4, &indices2_vec_4) };
 
         // Assignment 2 Task 1 triangles
         let vertices_different_colors: Vec<f32> = vec![
