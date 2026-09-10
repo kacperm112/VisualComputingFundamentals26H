@@ -154,3 +154,9 @@ Those observations make sense as we can expect to see object that are close to t
 # Task 3: The Affine Transformation Matrix
 
 ## (a)
+
+
+
+# Task 4: Combinations of Transformations
+
+## (a)

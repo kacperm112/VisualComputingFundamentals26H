@@ -15,6 +15,7 @@ use std::{mem, os::raw::c_void, ptr};
 mod shader;
 mod util;
 
+use glm::Mat3x3;
 use glutin::event::{
     DeviceEvent,
     ElementState::{Pressed, Released},
@@ -57,6 +58,10 @@ fn offset<T>(n: u32) -> *const c_void {
 // Get a null pointer (equivalent to an offset of 0)
 // ptr::null()
 
+// Initializing the transformation matrix as a uniform variable
+static mut transformationMatrix: Mat3x3 =
+    glm::Mat3::new(-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0);
+
 // == // Generate your VAO here
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // Implemented: Generated vao
@@ -74,7 +79,8 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         gl::ARRAY_BUFFER,
         byte_size_of_array(vertices),
         vertices.as_ptr() as *const c_void, // c_void just means pointer to generic data
-        gl::STATIC_DRAW,    );
+        gl::STATIC_DRAW,
+    );
 
     gl::EnableVertexAttribArray(0);
 
@@ -84,11 +90,12 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         3,
         gl::FLOAT,
         gl::FALSE,
-        7 * size_of::<f32>(), // 6 because each vertex contains x,y,x,r,g,b,alpha attributes and distanse to next is 12 bytes
+        7 * size_of::<f32>(), // 7 because each vertex contains x,y,x,r,g,b,alpha attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
     gl::EnableVertexAttribArray(1);
+    // Color
     gl::VertexAttribPointer(
         1,
         4,
@@ -98,6 +105,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         (3 * size_of::<f32>()) as *const gl::types::GLvoid,
     );
 
+    gl::GetUniformLocation(0, transformationMatrix.as_ptr() as *const i8);
 
     // Index buffer
     let mut index_buffer = 0;
@@ -113,7 +121,6 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
 
     vao
 }
-
 
 fn main() {
     // Set up the necessary objects to deal with windows and event handling
@@ -188,45 +195,26 @@ fn main() {
         // Triangles for Assignment 1 Task 1
         // here we can add more triangles, simply in the same vec
         let vertices_vec_4: Vec<f32> = vec![
-            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-            0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-            0.0,  0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-
-            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-            0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.0,
-            0.0, 0.9, 0.0, 1.0, 1.0, 1.0, 0.0,
-
-            -0.8, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
-            -0.4, -0.8, 0.0, 1.0, 0.0, 0.0, 0.0,
-            -0.6, -0.65, 0.0, 1.0, 0.0, 0.0, 0.0,
-
-            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
-            0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.0,
+            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.5, 0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 0.5, 0.0, 0.6, 0.0,
+            1.0, 1.0, 1.0, 0.5, -0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 0.5, 0.6, 0.6, 0.0, 1.0, 1.0, 1.0,
+            0.5, 0.0, 0.9, 0.0, 1.0, 1.0, 1.0, 0.5, -0.8, -0.8, 0.0, 1.0, 0.0, 0.0, 0.5, -0.4,
+            -0.8, 0.0, 1.0, 0.0, 0.0, 0.5, -0.6, -0.65, 0.0, 1.0, 0.0, 0.0, 0.5, -0.5, 0.4, 0.0,
+            1.0, 1.0, 1.0, 0.5, 0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 0.5,
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
-        let indices_vec_4: Vec<u32> = vec![
-            0, 1, 2,
-            3, 4, 5,
-            6, 7, 8,
-            0, 9, 3,
-            1, 10, 2,
-            ];
-
+        let indices_vec_4: Vec<u32> = vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 3, 1, 10, 2];
 
         let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
 
         // Triangles for Assignment 1 Task 2
         let vertices2_vec_4: Vec<f32> = vec![
-            0.6, -0.8, -1.2, 0.0, 0.0, 1.0, 1.0,
-            0.0, 0.4, 0.0, 0.0, 0.0, 1.0, 1.0,
-            -0.8, -0.2, 1.2, 0.0, 0.0, 1.0, 1.0,
+            0.6, -0.8, -1.2, 0.0, 0.0, 1.0, 1.0, 0.0, 0.4, 0.0, 0.0, 0.0, 1.0, 1.0, -0.8, -0.2,
+            1.2, 0.0, 0.0, 1.0, 1.0,
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
-        let indices2_vec_4: Vec<u32> = vec![
-            0, 1, 2,
-            ];
+        let indices2_vec_4: Vec<u32> = vec![0, 1, 2];
 
         let my_vao2 = unsafe { create_vao(&vertices2_vec_4, &indices2_vec_4) };
 
@@ -245,17 +233,10 @@ fn main() {
         //     0.0, 0.2, 0.0, 0.0, 0.0, 1.0, 0.5,
         // ];
         let vertices3_vec_4: Vec<f32> = vec![
-            -0.6, -0.6, 0.0, 0.0, 0.0, 1.0, 0.5,
-            0.6, -0.6, 0.0, 0.0, 0.0, 1.0, 0.5,
-            0.0,  0.6, 0.0, 0.0, 0.0, 1.0, 0.5,
-
-            -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 0.5,
-            0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 0.5,
-            0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 0.5,
-
-            -0.2, -0.2, 0.9, 0.0, 0.1, 0.0, 0.5,
-            0.2, -0.2, 0.9, 0.0, 0.1, 0.0, 0.5,
-            0.0, 0.2, 0.9, 0.0, 0.1, 0.0, 0.5,
+            -0.6, -0.6, 0.0, 0.0, 0.0, 1.0, 0.5, 0.6, -0.6, 0.0, 0.0, 0.0, 1.0, 0.5, 0.0, 0.6, 0.0,
+            0.0, 0.0, 1.0, 0.5, -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 0.5, 0.4, -0.4, 0.5, 1.0, 0.0, 0.0,
+            0.5, 0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 0.5, -0.2, -0.2, 0.9, 0.0, 0.1, 0.0, 0.5, 0.2, -0.2,
+            0.9, 0.0, 0.1, 0.0, 0.5, 0.0, 0.2, 0.9, 0.0, 0.1, 0.0, 0.5,
         ];
         // let vertices3_vec_4: Vec<f32> = vec![
         //     -0.6, -0.6, 0.9, 0.0, 1.0, 0.0, 0.5,
@@ -272,15 +253,9 @@ fn main() {
         // ];
 
         // adding more triangles, we also have to add more indices (3 for each)
-        let indices3_vec_4: Vec<u32> = vec![
-            6, 7, 8,
-            3, 4, 5,
-            0, 1, 2,
-            ];
-
+        let indices3_vec_4: Vec<u32> = vec![6, 7, 8, 3, 4, 5, 0, 1, 2];
 
         let my_vao3 = unsafe { create_vao(&vertices3_vec_4, &indices3_vec_4) };
-
 
         // == // Set up your shaders here
 
@@ -301,7 +276,6 @@ fn main() {
         unsafe {
             simple_shader.activate();
         }
-
 
         // Used to demonstrate keyboard handling for exercise 2.
         let mut _arbitrary_number = 0.0; // feel free to remove
@@ -365,30 +339,11 @@ fn main() {
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
                 // Assignment 1 Task 1
-                // gl::BindVertexArray(my_vao);
+                // upload transformation matrix to the currently active shader
+                let loc = simple_shader.get_uniform_location("transformationMatrix");
+                gl::UniformMatrix3fv(loc, 1, gl::FALSE, transformationMatrix.as_ptr());
 
-
-                // gl::DrawElements(
-                //     gl::TRIANGLES,
-                //     indices_vec_4.len() as i32,
-                //     gl::UNSIGNED_INT,
-                //     ptr::null(),
-                // );
-                
-                // // Assignment 1 Task 2
-                // gl::BindVertexArray(my_vao2);
-
-
-                // gl::DrawElements(
-                //     gl::TRIANGLES,
-                //     indices_vec_4.len() as i32,
-                //     gl::UNSIGNED_INT,
-                //     ptr::null(),
-                // );
-
-                // Assignment 2 Task 1
-                gl::BindVertexArray(my_vao3);
-
+                gl::BindVertexArray(my_vao);
 
                 gl::DrawElements(
                     gl::TRIANGLES,
@@ -396,6 +351,26 @@ fn main() {
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
+
+                // Assignment 1 Task 2
+                gl::BindVertexArray(my_vao2);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    indices_vec_4.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
+
+                // // Assignment 2 Task 1
+                // gl::BindVertexArray(my_vao3);
+
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     indices_vec_4.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
             }
 
             // Display the new color buffer on the display
