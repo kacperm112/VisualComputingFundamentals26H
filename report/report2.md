@@ -189,3 +189,47 @@ The vertices multiplied by the 4x4 identity matrix result in no changes being ma
 ![
     Result of multiplication by identity matrix
 ](images/ass2task3a.png)
+
+### (b)
+Modifying each value marked with letters in the matrix:
+#### a
+Modifying this value results in scaling along the x axis:
+![
+    Scaling along the x-axis
+](images/ass2task3scaledx.png)
+#### b
+Modifying this value results in shearing along the x axis:
+![
+    Shear along the x-axis
+](images/ass2task3shearx.png)
+#### c
+Modifying this value results in translation along the x axis:
+![
+    Translation along the x-axis
+](images/ass2task3transx.png)
+#### d
+Modifying this value results in shearing along the y axis:
+![
+    Shear along the y-axis
+](images/ass2task3sheary.png)
+#### e
+Modifying this value results in scaling along the y axis:
+![
+    Scaling along the y-axis
+](images/ass2task3scaley.png)
+#### f
+Modifying this value results in translation along the y axis:
+![
+    Translation along the y-axis
+](images/ass2task3transy.png)
+
+### (c)
+Why can you be certain that none of the observed transformations were rotations?\
+None of the observed transformations were rotations, because:
+* The distance from the origin does not change during a rotation. In all observed transformations the distance changed.
+* The rotation matrix is defined by:
+$\begin{bmatrix}\cos(\theta)&-\sin(\theta)\\ \sin(\theta)&\cos(\theta)\end{bmatrix}$
+We know that none of the transformations are rotations, because at least two values would have to be changed to achieve that.
+![
+    Example of rotation
+](images/ass2task3c.png)
