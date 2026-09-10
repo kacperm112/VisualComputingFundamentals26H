@@ -105,8 +105,6 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         (3 * size_of::<f32>()) as *const gl::types::GLvoid,
     );
 
-    gl::GetUniformLocation(0, transformationMatrix.as_ptr() as *const i8);
-
     // Index buffer
     let mut index_buffer = 0;
     gl::GenBuffers(1, &mut index_buffer); // count=1 bc we only generate 1 index
@@ -283,6 +281,12 @@ fn main() {
         // The main rendering loop
         let first_frame_time = std::time::Instant::now();
         let mut previous_frame_time = first_frame_time;
+
+        // upload transformation matrix to the currently active shader
+        unsafe {
+            let loc = simple_shader.get_uniform_location("transformationMatrix");
+            gl::UniformMatrix3fv(loc, 1, gl::FALSE, transformationMatrix.as_ptr());
+        }
         loop {
             // Compute time passed since the previous frame and since the start of the program
             let now = std::time::Instant::now();
@@ -339,9 +343,6 @@ fn main() {
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
                 // Assignment 1 Task 1
-                // upload transformation matrix to the currently active shader
-                let loc = simple_shader.get_uniform_location("transformationMatrix");
-                gl::UniformMatrix3fv(loc, 1, gl::FALSE, transformationMatrix.as_ptr());
 
                 gl::BindVertexArray(my_vao);
 
