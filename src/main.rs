@@ -58,36 +58,10 @@ fn offset<T>(n: u32) -> *const c_void {
 // Get a null pointer (equivalent to an offset of 0)
 // ptr::null()
 
-// Initializing the transformation matrix as a uniform variable
-const scalingMatrix: Mat4x4 =
-    glm::Mat4::new(
-        -1.0, 0.0, 0.0, 0.0,
-        0.0, -1.0, 0.0, 0.0,
-        0.0, 0.0, -1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
-const translationMatrix: Mat4x4 =
-    glm::Mat4::new(
-        1.0, 0.0, 0.0, 0.0, 
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
-static mut transformationMatrix: Mat4x4 =
-    glm::Mat4::new(
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
 // == // Generate your VAO here
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // Implemented: Generated vao
     let mut vao = 0;
-    transformationMatrix = scalingMatrix * translationMatrix;
 
     gl::GenVertexArrays(1, &mut vao);
     gl::BindVertexArray(vao);
@@ -185,6 +159,34 @@ fn main() {
         };
 
         let mut window_aspect_ratio = INITIAL_SCREEN_W as f32 / INITIAL_SCREEN_H as f32;
+
+        // Initializing the different transformation matrixes
+        const scalingMatrix: Mat4x4 =
+            glm::Mat4::new(
+                -1.0, 0.0, 0.0, 0.0,
+                0.0, -1.0, 0.0, 0.0,
+                0.0, 0.0, -1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0,
+            );
+
+        const translationMatrix: Mat4x4 =
+            glm::Mat4::new(
+                1.0, 0.0, 0.0, 0.0, 
+                0.0, 1.0, 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0,
+            );
+
+        let projectionMatrix: glm::Mat4 =
+            glm::perspective(
+                window_aspect_ratio,
+                180.0,
+                1.0,
+                100.0,
+            );
+
+        // The final transformation matrix is a combination of all the previously set transformation matrix
+        let transformationMatrix = scalingMatrix * translationMatrix * projectionMatrix;
 
         // Set up openGL
         unsafe {
