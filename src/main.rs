@@ -72,7 +72,7 @@ const translationMatrix: Mat4x4 =
         1.0, 0.0, 0.0, 0.0, 
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 1.0, 0.0,
-        -10.0, -10.0, -10.0, 1.0,
+        0.0, 0.0, 0.0, 1.0,
     );
 
 static mut transformationMatrix: Mat4x4 =
@@ -124,7 +124,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         gl::FLOAT,
         gl::FALSE,
         (8 * size_of::<f32>()) as gl::types::GLint,
-        (3 * size_of::<f32>()) as *const gl::types::GLvoid,
+        (4 * size_of::<f32>()) as *const gl::types::GLvoid,
     );
 
     // Index buffer
