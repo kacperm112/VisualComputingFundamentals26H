@@ -11,13 +11,7 @@ out VS_OUTPUT {
 
 void main()
 {
-<<<<<<< HEAD
     vec3 newPosition = transformationMatrix*position;
     gl_Position = vec4(newPosition, 1.0f);
-=======
-
-    mat4x4 matrix = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
-    gl_Position = matrix * vec4(position, 1.0f);
->>>>>>> cfeedc6 (task3a done)
     OUT.color = color;
 }
