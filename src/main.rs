@@ -15,7 +15,7 @@ use std::{mem, os::raw::c_void, ptr};
 mod shader;
 mod util;
 
-use glm::{Mat3x3, Mat4x4};
+use glm::{Mat3x3, Mat4x4, pi};
 use glutin::event::{
     DeviceEvent,
     ElementState::{Pressed, Released},
@@ -161,7 +161,7 @@ fn main() {
         let mut window_aspect_ratio = INITIAL_SCREEN_W as f32 / INITIAL_SCREEN_H as f32;
 
         // Initializing the different transformation matrixes
-        const scalingMatrix: Mat4x4 =
+        let scaling_matrix: Mat4x4 =
             glm::Mat4::new(
                 -1.0, 0.0, 0.0, 0.0,
                 0.0, -1.0, 0.0, 0.0,
@@ -169,24 +169,24 @@ fn main() {
                 0.0, 0.0, 0.0, 1.0,
             );
 
-        const translationMatrix: Mat4x4 =
+        let translation_matrix: Mat4x4 =
             glm::Mat4::new(
                 1.0, 0.0, 0.0, 0.0, 
                 0.0, 1.0, 0.0, 0.0,
                 0.0, 0.0, 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0,
+                0.0, 0.0, -2.0, 1.0,
             );
 
-        let projectionMatrix: glm::Mat4 =
+        let projection_matrix: glm::Mat4 =
             glm::perspective(
                 window_aspect_ratio,
-                180.0,
+                (std::f32::consts::PI)/2.0,
                 1.0,
                 100.0,
             );
 
         // The final transformation matrix is a combination of all the previously set transformation matrix
-        let transformationMatrix = scalingMatrix * translationMatrix * projectionMatrix;
+        let transformation_matrix = scaling_matrix * translation_matrix * projection_matrix;
 
         // Set up openGL
         unsafe {
@@ -320,8 +320,8 @@ fn main() {
 
         // upload transformation matrix to the currently active shader
         unsafe {
-            let loc = simple_shader.get_uniform_location("transformationMatrix");
-            gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformationMatrix.as_ptr());
+            let loc = simple_shader.get_uniform_location("transformation_matrix");
+            gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformation_matrix.as_ptr());
         }
         loop {
             // Compute time passed since the previous frame and since the start of the program
