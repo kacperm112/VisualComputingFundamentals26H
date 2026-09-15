@@ -59,13 +59,32 @@ fn offset<T>(n: u32) -> *const c_void {
 // ptr::null()
 
 // Initializing the transformation matrix as a uniform variable
+const scalingMatrix: Mat3x3 =
+    glm::Mat3::new(
+        -1.0, 0.0, 0.0, 
+        0.0, -1.0, 0.0,
+        0.0, 0.0, 1.0,
+    );
+
+const translationMatrix: Mat3x3 =
+    glm::Mat3::new(
+        1.0, 0.0, 0.0, 
+        0.0, 1.0, 0.0,
+        -10.0, -10.0, 1.0,
+    );
+
 static mut transformationMatrix: Mat3x3 =
-    glm::Mat3::new(-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0);
+    glm::Mat3::new(
+        1.0, 0.0, 0.0, 
+        0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0,
+    );
 
 // == // Generate your VAO here
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // Implemented: Generated vao
     let mut vao = 0;
+    transformationMatrix = scalingMatrix * translationMatrix;
 
     gl::GenVertexArrays(1, &mut vao);
     gl::BindVertexArray(vao);
