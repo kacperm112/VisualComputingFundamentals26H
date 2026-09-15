@@ -1,9 +1,9 @@
 #version 430 core
 
-layout (location = 0) in vec3 position;
+layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 color;
 
-uniform mat3x3 transformationMatrix;
+uniform mat4x4 transformationMatrix;
 
 out VS_OUTPUT {
     vec4 color;
@@ -11,7 +11,7 @@ out VS_OUTPUT {
 
 void main()
 {
-    vec3 newPosition = transformationMatrix*position;
-    gl_Position = vec4(newPosition, 1.0f);
+    vec4 newPosition = transformationMatrix*position;
+    gl_Position = newPosition;
     OUT.color = color;
 }
