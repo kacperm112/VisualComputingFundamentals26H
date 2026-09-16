@@ -161,21 +161,23 @@ fn main() {
         let mut window_aspect_ratio = INITIAL_SCREEN_W as f32 / INITIAL_SCREEN_H as f32;
 
         // Initializing the different transformation matrixes
-        let scaling_matrix: Mat4x4 =
-            glm::Mat4::new(
-                -1.0, 0.0, 0.0, 0.0,
-                0.0, -1.0, 0.0, 0.0,
-                0.0, 0.0, -1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0,
-            );
+        // let scaling_matrix: Mat4x4 =
+        //     glm::Mat4::new(
+        //         -1.0, 0.0, 0.0, 0.0,
+        //         0.0, -1.0, 0.0, 0.0,
+        //         0.0, 0.0, -1.0, 0.0,
+        //         0.0, 0.0, 0.0, 1.0,
+        //     );
 
+        // let translation_matrix: Mat4x4 =
+        //     glm::Mat4::new(
+        //         1.0, 0.0, 0.0, 0.0, 
+        //         0.0, 1.0, 0.0, 0.0,
+        //         0.0, 0.0, 1.0, 0.0,
+        //         0.0, 0.0, 1.0, 1.0,
+        //     );
         let translation_matrix: Mat4x4 =
-            glm::Mat4::new(
-                1.0, 0.0, 0.0, 0.0, 
-                0.0, 1.0, 0.0, 0.0,
-                0.0, 0.0, 1.0, 0.0,
-                0.0, 0.0, -2.0, 1.0,
-            );
+            glm::translation(&glm::vec3(0.0, 0.0, -3.0));
 
         let projection_matrix: glm::Mat4 =
             glm::perspective(
@@ -186,7 +188,7 @@ fn main() {
             );
 
         // The final transformation matrix is a combination of all the previously set transformation matrix
-        let transformation_matrix = scaling_matrix * translation_matrix * projection_matrix;
+        let transformation_matrix = projection_matrix * translation_matrix;
 
         // Set up openGL
         unsafe {
@@ -236,10 +238,16 @@ fn main() {
         let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
 
         // Triangles for Assignment 1 Task 2
+        // let vertices2_vec_4: Vec<f32> = vec![
+        //     0.6, -0.8, -1.2, 1.0, 0.0, 0.0, 1.0, 1.0, 
+        //     0.0, 0.4, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
+        //     -0.8, -0.2, 1.2, 1.0, 0.0, 0.0, 1.0, 1.0,
+        // ];
+
         let vertices2_vec_4: Vec<f32> = vec![
-            0.6, -0.8, -1.2, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            0.0, 0.4, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            -0.8, -0.2, 1.2, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.0, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.5, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
@@ -380,21 +388,21 @@ fn main() {
                 // New Implemented
                 // Assignment 1 Task 1
 
-                gl::BindVertexArray(my_vao);
+                // gl::BindVertexArray(my_vao);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    indices_vec_4.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     indices_vec_4.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
 
                 // Assignment 1 Task 2
                 gl::BindVertexArray(my_vao2);
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    indices_vec_4.len() as i32,
+                    indices2_vec_4.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
