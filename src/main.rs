@@ -368,6 +368,18 @@ fn main() {
             }
 
             // == // Please compute camera transforms here (exercise 2 & 3)
+            static mut cameraTransformationMatrix: glm::Mat4 = glm::identity();
+            
+            let mut cameraTranslationMatrix: glm::Mat4 = glm::translation(direction: &glm::(cameraX, cameraY, cameraZ));
+            let mut cameraRotationX: glm::Mat4 = glm::rotation(angle: angleX, axis: &glm::vec3(1.0, 0.0, 0.0));
+            let mut cameraRotationY: glm::Mat4 = glm::rotation(angle: angleX, axis: &glm::vec3(0.0, 1.0, 0.0));
+            let cameraProjection: glm::Mat4 = glm::perspective(
+                aspect : window_aspect_ratio,
+                fovy : fovy,
+                near : 1.0,
+                far : 100.0,
+            );
+
 
             unsafe {
                 // Clear the color and depth buffers
