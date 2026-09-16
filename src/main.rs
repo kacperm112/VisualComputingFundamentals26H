@@ -323,7 +323,7 @@ fn main() {
         let mut _arbitrary_number = 0.0; // feel free to remove
         let mut cameraX = 0.0;
         let mut cameraY = 0.0;
-        let mut cameraZ = 0.0;
+        let mut cameraZ = -3.0;
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
@@ -408,10 +408,10 @@ fn main() {
                 );
 
             // The final transformation matrix is a combination of all the previously set transformation matrix
-            camera_transformation_matrix = camera_projection_matrix * camera_translation_matrix * camera_rotation_matrix_x * camera_rotation_matrix_y;
+            camera_transformation_matrix = camera_projection_matrix * camera_translation_matrix;
 
             unsafe {
-                let loc = simple_shader.get_uniform_location("transformation_matrix");
+                let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
                 gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
             }
 

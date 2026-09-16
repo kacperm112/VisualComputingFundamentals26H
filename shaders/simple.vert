@@ -3,7 +3,7 @@
 layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 color;
 
-uniform mat4x4 transformationMatrix;
+uniform mat4x4 camera_transformation_matrix;
 
 out VS_OUTPUT {
     vec4 color;
@@ -11,7 +11,7 @@ out VS_OUTPUT {
 
 void main()
 {
-    vec4 newPosition = transformationMatrix*position;
+    vec4 newPosition = camera_transformation_matrix*position;
     gl_Position = newPosition;
     OUT.color = color;
 }
