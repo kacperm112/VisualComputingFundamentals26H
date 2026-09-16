@@ -15,7 +15,7 @@ use std::{mem, os::raw::c_void, ptr};
 mod shader;
 mod util;
 
-use glm::{Mat3x3, Mat4x4};
+use glm::{Mat3x3, Mat4x4, pi};
 use glutin::event::{
     DeviceEvent,
     ElementState::{Pressed, Released},
@@ -58,36 +58,10 @@ fn offset<T>(n: u32) -> *const c_void {
 // Get a null pointer (equivalent to an offset of 0)
 // ptr::null()
 
-// Initializing the transformation matrix as a uniform variable
-const scalingMatrix: Mat4x4 =
-    glm::Mat4::new(
-        -1.0, 0.0, 0.0, 0.0,
-        0.0, -1.0, 0.0, 0.0,
-        0.0, 0.0, -1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
-const translationMatrix: Mat4x4 =
-    glm::Mat4::new(
-        1.0, 0.0, 0.0, 0.0, 
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
-static mut transformationMatrix: Mat4x4 =
-    glm::Mat4::new(
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-    );
-
 // == // Generate your VAO here
 unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // Implemented: Generated vao
     let mut vao = 0;
-    transformationMatrix = scalingMatrix * translationMatrix;
 
     gl::GenVertexArrays(1, &mut vao);
     gl::BindVertexArray(vao);
@@ -186,6 +160,36 @@ fn main() {
 
         let mut window_aspect_ratio = INITIAL_SCREEN_W as f32 / INITIAL_SCREEN_H as f32;
 
+        // Initializing the different transformation matrixes
+        // let scaling_matrix: Mat4x4 =
+        //     glm::Mat4::new(
+        //         -1.0, 0.0, 0.0, 0.0,
+        //         0.0, -1.0, 0.0, 0.0,
+        //         0.0, 0.0, -1.0, 0.0,
+        //         0.0, 0.0, 0.0, 1.0,
+        //     );
+
+        // let translation_matrix: Mat4x4 =
+        //     glm::Mat4::new(
+        //         1.0, 0.0, 0.0, 0.0, 
+        //         0.0, 1.0, 0.0, 0.0,
+        //         0.0, 0.0, 1.0, 0.0,
+        //         0.0, 0.0, 1.0, 1.0,
+        //     );
+        // let translation_matrix: Mat4x4 =
+        //     glm::translation(&glm::vec3(0.0, 0.0, -3.0));
+
+        // let projection_matrix: glm::Mat4 =
+        //     glm::perspective(
+        //         window_aspect_ratio,
+        //         (std::f32::consts::PI)/2.0,
+        //         1.0,
+        //         100.0,
+        //     );
+
+        // // The final transformation matrix is a combination of all the previously set transformation matrix
+        // let transformation_matrix = projection_matrix * translation_matrix;
+
         // Set up openGL
         unsafe {
             gl::Enable(gl::DEPTH_TEST);
@@ -234,10 +238,16 @@ fn main() {
         let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
 
         // Triangles for Assignment 1 Task 2
+        // let vertices2_vec_4: Vec<f32> = vec![
+        //     0.6, -0.8, -1.2, 1.0, 0.0, 0.0, 1.0, 1.0, 
+        //     0.0, 0.4, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
+        //     -0.8, -0.2, 1.2, 1.0, 0.0, 0.0, 1.0, 1.0,
+        // ];
+
         let vertices2_vec_4: Vec<f32> = vec![
-            0.6, -0.8, -1.2, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            0.0, 0.4, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            -0.8, -0.2, 1.2, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.0, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.5, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
@@ -311,16 +321,21 @@ fn main() {
 
         // Used to demonstrate keyboard handling for exercise 2.
         let mut _arbitrary_number = 0.0; // feel free to remove
+        let mut cameraX = 0.0;
+        let mut cameraY = 0.0;
+        let mut cameraZ = 0.0;
+        let mut angleX = 0.0;
+        let mut angleY = 0.0;
 
         // The main rendering loop
         let first_frame_time = std::time::Instant::now();
         let mut previous_frame_time = first_frame_time;
 
         // upload transformation matrix to the currently active shader
-        unsafe {
-            let loc = simple_shader.get_uniform_location("transformationMatrix");
-            gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformationMatrix.as_ptr());
-        }
+        // unsafe {
+        //     let loc = simple_shader.get_uniform_location("transformation_matrix");
+        //     gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformation_matrix.as_ptr());
+        // }
         loop {
             // Compute time passed since the previous frame and since the start of the program
             let now = std::time::Instant::now();
@@ -347,11 +362,17 @@ fn main() {
                     match key {
                         // The `VirtualKeyCode` enum is defined here:
                         //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
+                        VirtualKeyCode::W => {
+                            cameraZ -= delta_time;
+                        }
+                        VirtualKeyCode::S => {
+                            cameraZ += delta_time;
+                        }
                         VirtualKeyCode::A => {
-                            _arbitrary_number += delta_time;
+                            cameraX += delta_time;
                         }
                         VirtualKeyCode::D => {
-                            _arbitrary_number -= delta_time;
+                            cameraX -= delta_time;
                         }
 
                         // default handler:
@@ -368,18 +389,31 @@ fn main() {
             }
 
             // == // Please compute camera transforms here (exercise 2 & 3)
-            static mut cameraTransformationMatrix: glm::Mat4 = glm::identity();
-            
-            let mut cameraTranslationMatrix: glm::Mat4 = glm::translation(direction: &glm::(cameraX, cameraY, cameraZ));
-            let mut cameraRotationX: glm::Mat4 = glm::rotation(angle: angleX, axis: &glm::vec3(1.0, 0.0, 0.0));
-            let mut cameraRotationY: glm::Mat4 = glm::rotation(angle: angleX, axis: &glm::vec3(0.0, 1.0, 0.0));
-            let cameraProjection: glm::Mat4 = glm::perspective(
-                aspect : window_aspect_ratio,
-                fovy : fovy,
-                near : 1.0,
-                far : 100.0,
-            );
 
+            let mut camera_transformation_matrix : glm::Mat4 = glm::identity();
+            let camera_translation_matrix: glm::Mat4 =
+                glm::translation(&glm::vec3(cameraX, cameraY, cameraZ));
+            let camera_rotation_matrix_x: glm::Mat4 = 
+                glm::rotation(angleX, &glm::vec3(1.0, 0.0, 0.0));
+            
+            let camera_rotation_matrix_y: glm::Mat4 = 
+                glm::rotation(angleY, &glm::vec3(0.0, 1.0, 0.0));
+
+            let camera_projection_matrix: glm::Mat4 =
+                glm::perspective(
+                    window_aspect_ratio,
+                    (std::f32::consts::PI)/2.0,
+                    1.0,
+                    100.0,
+                );
+
+            // The final transformation matrix is a combination of all the previously set transformation matrix
+            camera_transformation_matrix = camera_projection_matrix * camera_translation_matrix * camera_rotation_matrix_x * camera_rotation_matrix_y;
+
+            unsafe {
+                let loc = simple_shader.get_uniform_location("transformation_matrix");
+                gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
+            }
 
             unsafe {
                 // Clear the color and depth buffers
@@ -390,21 +424,21 @@ fn main() {
                 // New Implemented
                 // Assignment 1 Task 1
 
-                gl::BindVertexArray(my_vao);
+                // gl::BindVertexArray(my_vao);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    indices_vec_4.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     indices_vec_4.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
 
                 // Assignment 1 Task 2
                 gl::BindVertexArray(my_vao2);
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    indices_vec_4.len() as i32,
+                    indices2_vec_4.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
