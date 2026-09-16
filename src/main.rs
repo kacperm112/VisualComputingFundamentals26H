@@ -323,7 +323,7 @@ fn main() {
         let mut _arbitrary_number = 0.0; // feel free to remove
         let mut cameraX = 0.0;
         let mut cameraY = 0.0;
-        let mut cameraZ = -3.0;
+        let mut cameraZ = 0.0;
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
@@ -363,16 +363,34 @@ fn main() {
                         // The `VirtualKeyCode` enum is defined here:
                         //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
                         VirtualKeyCode::W => {
-                            cameraZ -= delta_time;
+                            cameraZ += delta_time;
                         }
                         VirtualKeyCode::S => {
-                            cameraZ += delta_time;
+                            cameraZ -= delta_time;
                         }
                         VirtualKeyCode::A => {
                             cameraX += delta_time;
                         }
                         VirtualKeyCode::D => {
                             cameraX -= delta_time;
+                        }
+                        VirtualKeyCode::Space => {
+                            cameraY += delta_time;
+                        }
+                        VirtualKeyCode::LShift => {
+                            cameraX -= delta_time;
+                        }
+                        VirtualKeyCode::Left => {
+                            angleY += delta_time;
+                        }
+                        VirtualKeyCode::Up => {
+                            angleX += delta_time;
+                        }
+                        VirtualKeyCode::Right => {
+                            angleY -= delta_time;
+                        }
+                        VirtualKeyCode::Down => {
+                            angleX -= delta_time;
                         }
 
                         // default handler:
@@ -394,10 +412,10 @@ fn main() {
             let camera_translation_matrix: glm::Mat4 =
                 glm::translation(&glm::vec3(cameraX, cameraY, cameraZ));
             let camera_rotation_matrix_x: glm::Mat4 = 
-                glm::rotation(angleX, &glm::vec3(1.0, 0.0, 0.0));
+                glm::rotation(-angleX, &glm::vec3(1.0, 0.0, 0.0));
             
             let camera_rotation_matrix_y: glm::Mat4 = 
-                glm::rotation(angleY, &glm::vec3(0.0, 1.0, 0.0));
+                glm::rotation(-angleY, &glm::vec3(0.0, 1.0, 0.0));
 
             let camera_projection_matrix: glm::Mat4 =
                 glm::perspective(
@@ -408,7 +426,11 @@ fn main() {
                 );
 
             // The final transformation matrix is a combination of all the previously set transformation matrix
-            camera_transformation_matrix = camera_projection_matrix * camera_translation_matrix;
+            let camera_transformation_matrix =
+                camera_projection_matrix
+                * camera_rotation_matrix_y
+                * camera_rotation_matrix_x
+                * camera_translation_matrix;
 
             unsafe {
                 let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
