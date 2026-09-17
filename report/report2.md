@@ -114,17 +114,17 @@ Colours between vertices are an interpolation of colours assigned to each vertex
 
 When swapping the colors of the three triangles, the color of the area in which the triangles overlap changes as well.
 This can be explained by the following equation: \
-Color_New = Color_Source · Alpha_Source + Color_Destination · (1 − Alpha_Source ) \
+Color\_New = Color\_Source * Alpha\_Source + Color\_Destination * (1 - Alpha\_Source ) \
 Let's apply this equation to a pixel in the overlapping area in both cases and witness the difference.
 In the first case (question (a)), we have:
-- When the first (red) triangle is drawn: Color_New = 0.5\*red + 1\*black
-- When the second (green) triangle is drawn: Color_New = 0.5\*green + 0.5\*(0.5\*red + 1\*black) = 0.5\*green + 0.25\*red + 0.5\*black
-- When the last (blue) triangle is drawn: Color_New = 0.5\*blue + 0.5\*(0.5\*green + 0.25\*red + 0.5\*black) = 0.5\*blue + 0.25\*green + 0.125\*red + 0.25\*black
+- When the first (red) triangle is drawn: Color\_New = 0.5\*red + 1\*black
+- When the second (green) triangle is drawn: Color\_New = 0.5\*green + 0.5\*(0.5\*red + 1\*black) = 0.5\*green + 0.25\*red + 0.5\*black
+- When the last (blue) triangle is drawn: Color\_New = 0.5\*blue + 0.5\*(0.5\*green + 0.25\*red + 0.5\*black) = 0.5\*blue + 0.25\*green + 0.125\*red + 0.25\*black
 
 Whereas in the second case (question (b)), we have:
-- When the first (blue) triangle is drawn: Color_New = 0.5\*blue + 1\*black
-- When the second (red) triangle is drawn: Color_New = 0.5\*red + 0.5\*(0.5\*blue + 1\*black) = 0.5\*red + 0.25\*blue + 0.5\*black
-- When the last (green) triangle is drawn: Color_New = 0.5\*green + 0.5\*(0.5\*red + 0.25\*blue + 0.5\*black) = 0.5\*green + 0.25\*red + 0.125\*blue + 0.25\*black
+- When the first (blue) triangle is drawn: Color\_New = 0.5\*blue + 1\*black
+- When the second (red) triangle is drawn: Color\_New = 0.5\*red + 0.5\*(0.5\*blue + 1\*black) = 0.5\*red + 0.25\*blue + 0.5\*black
+- When the last (green) triangle is drawn: Color\_New = 0.5\*green + 0.5\*(0.5\*red + 0.25\*blue + 0.5\*black) = 0.5\*green + 0.25\*red + 0.125\*blue + 0.25\*black
 
 0.5\*blue + 0.25\*green + 0.125\*red + 0.25\*black != 0.5\*green + 0.25\*red + 0.125\*blue + 0.25\*black, therefore the overlapping area appears in a different color in each case.
 
