@@ -245,9 +245,9 @@ fn main() {
         // ];
 
         let vertices2_vec_4: Vec<f32> = vec![
-            0.0, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            0.5, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0,
-            0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.0, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.5, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.5, 0.5, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
@@ -327,6 +327,8 @@ fn main() {
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
+        let camera_speed = 2.0;
+
         // The main rendering loop
         let first_frame_time = std::time::Instant::now();
         let mut previous_frame_time = first_frame_time;
@@ -363,34 +365,34 @@ fn main() {
                         // The `VirtualKeyCode` enum is defined here:
                         //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
                         VirtualKeyCode::W => {
-                            cameraZ += delta_time;
+                            cameraZ += delta_time*camera_speed;
                         }
                         VirtualKeyCode::S => {
-                            cameraZ -= delta_time;
+                            cameraZ -= delta_time*camera_speed;
                         }
                         VirtualKeyCode::A => {
-                            cameraX += delta_time;
+                            cameraX += delta_time*camera_speed;
                         }
                         VirtualKeyCode::D => {
-                            cameraX -= delta_time;
+                            cameraX -= delta_time*camera_speed;
                         }
                         VirtualKeyCode::Space => {
-                            cameraY += delta_time;
+                            cameraY += delta_time*camera_speed;
                         }
                         VirtualKeyCode::LShift => {
-                            cameraX -= delta_time;
+                            cameraX -= delta_time*camera_speed;
                         }
                         VirtualKeyCode::Left => {
-                            angleY += delta_time;
+                            angleY += delta_time*camera_speed;
                         }
                         VirtualKeyCode::Up => {
-                            angleX += delta_time;
+                            angleX += delta_time*camera_speed;
                         }
                         VirtualKeyCode::Right => {
-                            angleY -= delta_time;
+                            angleY -= delta_time*camera_speed;
                         }
                         VirtualKeyCode::Down => {
-                            angleX -= delta_time;
+                            angleX -= delta_time*camera_speed;
                         }
 
                         // default handler:
