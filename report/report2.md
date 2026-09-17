@@ -30,10 +30,21 @@ This is a HTML-style comment, not visible in the final PDF.
 # Task 1: Per-Vertex Colors
 
 ## (a) 
+Most of this task we have already accidentaly accomplished in Assignment 1. What needed to be changed was adding the alpha value, instead of setting it to 1.0 in the fragment shader as done previously.
+
+#### Modifying create_vao
+Function creating VAO needed to be modified to accept each vertice containing 7 floating point values (3 describing positon, 4 describing colour). To do that gl::VertexAttribPointer needed to be modified to be of size of 28 bytes instead of the previous 12. Additionally, it needed to be called twice, once for the position values, and once with colour values, with the last passed value being an offset of 3 bytes (as described in Assignment 1)
+
+#### Modifying shaders
+Vertex shaders needed to be modified to pass a vector containing color to the fragment shader. Fragment shader needed to be modified to take that as input instead of colour being set once and for all in its code.
+
+![
+    Triangles with vertices of different colours
+](images/ass2task1opacity.png)
 
 
 
-# Task 2: Alpha Blending and Depth
+## Task 2: Alpha Blending and Depth
 
 ## (a)
 ```rust
@@ -151,12 +162,75 @@ We notice that the furthest a triangle is, the less is color impacts the color o
 Those observations make sense as we can expect to see object that are close to the "camera" better than the ones that are far from it.
 
 
+
 # Task 3: The Affine Transformation Matrix
 
-## (a)
+### (a)
+Completing this task required modifying the Vertex Shader in a manner shown below:
+```rust
+#version 430 core
 
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec4 color;
 
+out VS_OUTPUT {
+    vec4 color;
+} OUT;
 
-# Task 4: Combinations of Transformations
+void main()
+{
 
-## (a)
+    mat4x4 matrix = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
+    gl_Position = matrix * vec4(position, 1.0f);
+    OUT.color = color;
+}
+
+```
+The vertices multiplied by the 4x4 identity matrix result in no changes being made to the original result:
+![
+    Result of multiplication by identity matrix
+](images/ass2task3a.png)
+
+### (b)
+Modifying each value marked with letters in the matrix:
+#### a
+Modifying this value results in scaling along the x axis:
+![
+    Scaling along the x-axis
+](images/ass2task3scaledx.png)
+#### b
+Modifying this value results in shearing along the x axis:
+![
+    Shear along the x-axis
+](images/ass2task3shearx.png)
+#### c
+Modifying this value results in translation along the x axis:
+![
+    Translation along the x-axis
+](images/ass2task3transx.png)
+#### d
+Modifying this value results in shearing along the y axis:
+![
+    Shear along the y-axis
+](images/ass2task3sheary.png)
+#### e
+Modifying this value results in scaling along the y axis:
+![
+    Scaling along the y-axis
+](images/ass2task3scaley.png)
+#### f
+Modifying this value results in translation along the y axis:
+![
+    Translation along the y-axis
+](images/ass2task3transy.png)
+
+### (c)
+Why can you be certain that none of the observed transformations were rotations?\
+None of the observed transformations were rotations, because:
+* The distance from the origin does not change during a rotation. In all observed transformations the distance changed.
+* The rotation matrix is defined by:
+$\begin{bmatrix}\cos(\theta)&-\sin(\theta)\\ \sin(\theta)&\cos(\theta)\end{bmatrix}$
+We know that none of the transformations are rotations, because at least two values would have to be changed to achieve that.
+![
+    Example of rotation
+](images/ass2task3c.png)
