@@ -188,6 +188,7 @@ fn main() {
             );
 
         // The final transformation matrix is a combination of all the previously set transformation matrix
+        // Projection needs to be applied last, so it is the first matrix we multiply
         let transformation_matrix = projection_matrix * translation_matrix;
 
         // Set up openGL
