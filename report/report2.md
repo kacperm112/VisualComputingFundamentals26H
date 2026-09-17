@@ -125,6 +125,7 @@ Whereas in the second case (question (b)), we have:
 
 0.5\*blue + 0.25\*green + 0.125\*red + 0.25\*black != 0.5\*green + 0.25\*red + 0.125\*blue + 0.25\*black, therefore the overlapping area appears in a different color in each case.
 
+
 ### (ii)
 ```rust
 // Triangles for Assignment 2 Task 2

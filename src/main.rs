@@ -176,20 +176,20 @@ fn main() {
         //         0.0, 0.0, 1.0, 0.0,
         //         0.0, 0.0, 1.0, 1.0,
         //     );
-        let translation_matrix: Mat4x4 =
-            glm::translation(&glm::vec3(0.0, 0.0, -3.0));
+        // let translation_matrix: Mat4x4 =
+        //     glm::translation(&glm::vec3(0.0, 0.0, -3.0));
 
-        let projection_matrix: glm::Mat4 =
-            glm::perspective(
-                window_aspect_ratio,
-                (std::f32::consts::PI)/2.0,
-                1.0,
-                100.0,
-            );
+        // let projection_matrix: glm::Mat4 =
+        //     glm::perspective(
+        //         window_aspect_ratio,
+        //         (std::f32::consts::PI)/2.0,
+        //         1.0,
+        //         100.0,
+        //     );
 
-        // The final transformation matrix is a combination of all the previously set transformation matrix
+        // // The final transformation matrix is a combination of all the previously set transformation matrix
         // Projection needs to be applied last, so it is the first matrix we multiply
-        let transformation_matrix = projection_matrix * translation_matrix;
+        // let transformation_matrix = projection_matrix * translation_matrix;
 
         // Set up openGL
         unsafe {
@@ -246,9 +246,9 @@ fn main() {
         // ];
 
         let vertices2_vec_4: Vec<f32> = vec![
-            0.0, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            0.5, 0.0, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0,
-            0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.0, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
+            0.5, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.5, 0.5, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
         ];
 
         // adding more triangles, we also have to add more indices (3 for each)
@@ -261,11 +261,20 @@ fn main() {
         //     -0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
         //     0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
         //     0.0,  0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
+        //     -0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
+        //     0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
+        //     0.0,  0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
 
         //     -0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
         //     0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
         //     0.0, 0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
+        //     -0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
+        //     0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
+        //     0.0, 0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
 
+        //     -0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
+        //     0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
+        //     0.0, 0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
         //     -0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
         //     0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
         //     0.0, 0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
@@ -280,8 +289,20 @@ fn main() {
             -0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
             0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
             0.0, 0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5,
+            -0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
+            0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
+            0.0, 0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
+            -0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
+            0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
+            0.0, 0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
+            -0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
+            0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
+            0.0, 0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5,
         ];
         // let vertices3_vec_4: Vec<f32> = vec![
+        //     -0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
+        //     0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
+        //     0.0,  0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
         //     -0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
         //     0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
         //     0.0,  0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
@@ -289,7 +310,13 @@ fn main() {
         //     -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
         //     0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
         //     0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
+        //     -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
+        //     0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
+        //     0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
 
+        //     -0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
+        //     0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
+        //     0.0, 0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
         //     -0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
         //     0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
         //     0.0, 0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
@@ -322,22 +349,30 @@ fn main() {
 
         // Used to demonstrate keyboard handling for exercise 2.
         let mut _arbitrary_number = 0.0; // feel free to remove
+        let mut cameraX = 0.0;
+        let mut cameraY = 0.0;
+        let mut cameraZ = 0.0;
+        let mut angleX = 0.0;
+        let mut angleY = 0.0;
+
+        let camera_speed = 2.0;
 
         // The main rendering loop
         let first_frame_time = std::time::Instant::now();
         let mut previous_frame_time = first_frame_time;
 
         // upload transformation matrix to the currently active shader
-        unsafe {
-            let loc = simple_shader.get_uniform_location("transformation_matrix");
-            gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformation_matrix.as_ptr());
-        }
+        // unsafe {
+        //     let loc = simple_shader.get_uniform_location("transformation_matrix");
+        //     gl::UniformMatrix4fv(loc, 1, gl::FALSE, transformation_matrix.as_ptr());
+        // }
         loop {
             // Compute time passed since the previous frame and since the start of the program
             let now = std::time::Instant::now();
             let elapsed = now.duration_since(first_frame_time).as_secs_f32();
             let delta_time = now.duration_since(previous_frame_time).as_secs_f32();
             previous_frame_time = now;
+
 
             // Handle resize events
             if let Ok(mut new_size) = window_size.lock() {
@@ -358,11 +393,35 @@ fn main() {
                     match key {
                         // The `VirtualKeyCode` enum is defined here:
                         //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
+                        VirtualKeyCode::W => {
+                            cameraZ += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::S => {
+                            cameraZ -= delta_time*camera_speed;
+                        }
                         VirtualKeyCode::A => {
-                            _arbitrary_number += delta_time;
+                            cameraX += delta_time*camera_speed;
                         }
                         VirtualKeyCode::D => {
-                            _arbitrary_number -= delta_time;
+                            cameraX -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Space => {
+                            cameraY += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::LShift => {
+                            cameraX -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Left => {
+                            angleY += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Up => {
+                            angleX += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Right => {
+                            angleY -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Down => {
+                            angleX -= delta_time*camera_speed;
                         }
 
                         // default handler:
@@ -379,6 +438,35 @@ fn main() {
             }
 
             // == // Please compute camera transforms here (exercise 2 & 3)
+
+            let mut camera_transformation_matrix : glm::Mat4 = glm::identity();
+            let camera_translation_matrix: glm::Mat4 =
+                glm::translation(&glm::vec3(cameraX, cameraY, cameraZ));
+            let camera_rotation_matrix_x: glm::Mat4 = 
+                glm::rotation(-angleX, &glm::vec3(1.0, 0.0, 0.0));
+            
+            let camera_rotation_matrix_y: glm::Mat4 = 
+                glm::rotation(-angleY, &glm::vec3(0.0, 1.0, 0.0));
+
+            let camera_projection_matrix: glm::Mat4 =
+                glm::perspective(
+                    window_aspect_ratio,
+                    (std::f32::consts::PI)/2.0,
+                    1.0,
+                    100.0,
+                );
+
+            // The final transformation matrix is a combination of all the previously set transformation matrix
+            let camera_transformation_matrix =
+                camera_projection_matrix
+                * camera_rotation_matrix_y
+                * camera_rotation_matrix_x
+                * camera_translation_matrix;
+
+            unsafe {
+                let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
+                gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
+            }
 
             unsafe {
                 // Clear the color and depth buffers
