@@ -158,8 +158,8 @@ Whereas in the second case (question (b)), we have:
 ![Three transparent triangles with different z-coordinate overlapping](images/Assignment2Task2OverlappingTrianglesDifferentDepth.png)
 
 When swapping the z-coordinate of the three triangles, the color of the area in which the triangles overlap changes.
-We notice that the furthest a triangle is, the less is color impacts the color of the overlapping area. In the example given in the screenshot, the triangle with the biggest z-coordinate (ie the furthest one) is the green one, and green is also the less prominent color in the overlapping area.
-Those observations make sense as we can expect to see object that are close to the "camera" better than the ones that are far from it.
+We notice that the furthest a triangle is, the less its color impacts the color of the overlapping area. In the example given in the screenshot, the triangle with the biggest z-coordinate (ie the furthest one) is the green one, and green is also the less prominent color in the overlapping area.
+Those observations make sense as we can expect to see the objects that are close to the "camera" better than the ones that are far from it.
 
 
 
