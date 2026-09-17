@@ -184,46 +184,64 @@ out VS_OUTPUT {
 void main()
 {
 
-    mat4x4 matrix = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
+    mat4x4 matrix = {
+        {1.0, 0.0, 0.0, 0.0}, 
+        {0.0, 1.0, 0.0, 0.0}, 
+        {0.0, 0.0, 1.0, 0.0}, 
+        {0.0, 0.0, 0.0, 1.0}
+    };
     gl_Position = matrix * vec4(position, 1.0f);
     OUT.color = color;
 }
 
 ```
 The vertices multiplied by the 4x4 identity matrix result in no changes being made to the original result:
+
 ![
     Result of multiplication by identity matrix
 ](images/ass2task3a.png)
 
 ### (b)
 Modifying each value marked with letters in the matrix:
+
 #### a
 Modifying this value results in scaling along the x axis:
+
 ![
     Scaling along the x-axis
 ](images/ass2task3scaledx.png)
+
 #### b
-Modifying this value results in shearing along the x axis:
+Modifying this value results in shearing along the x axis: 
+
 ![
     Shear along the x-axis
 ](images/ass2task3shearx.png)
+
 #### c
 Modifying this value results in translation along the x axis:
+
 ![
     Translation along the x-axis
 ](images/ass2task3transx.png)
+
 #### d
 Modifying this value results in shearing along the y axis:
+
 ![
     Shear along the y-axis
 ](images/ass2task3sheary.png)
+
 #### e
 Modifying this value results in scaling along the y axis:
+
 ![
     Scaling along the y-axis
 ](images/ass2task3scaley.png)
+
 #### f
 Modifying this value results in translation along the y axis:
+
 ![
     Translation along the y-axis
 ](images/ass2task3transy.png)
@@ -243,10 +261,10 @@ We know that none of the transformations are rotations, because at least two val
 ## (a) Passing the transformation matrix as an uniform variable
 ### main.rs
 ```rust
-    unsafe {
-        let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
-        gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
-    }
+unsafe {
+    let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
+    gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
+}
 ```
 ### Vertex Shader
 ```rust
@@ -279,7 +297,8 @@ void main()
             100.0,
         );
 
-    // The final transformation matrix is a combination of all the previously set transformation matrix
+    // The final transformation matrix is a combination of all the previously set 
+    // transformation matrix
     let camera_transformation_matrix =
         camera_projection_matrix
         * camera_rotation_matrix_y
@@ -305,45 +324,44 @@ Movement is stored in variables defined below:
 Key handler has also been added for controlling the motion:
 ```rust
 if let Ok(keys) = pressed_keys.lock() {
-                for key in keys.iter() {
-                    match key {
-                        // The `VirtualKeyCode` enum is defined here:
-                        //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
-                        VirtualKeyCode::W => {
-                            cameraZ += delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::S => {
-                            cameraZ -= delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::A => {
-                            cameraX += delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::D => {
-                            cameraX -= delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::Space => {
-                            cameraY += delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::LShift => {
-                            cameraX -= delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::Left => {
-                            angleY += delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::Up => {
-                            angleX += delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::Right => {
-                            angleY -= delta_time*camera_speed;
-                        }
-                        VirtualKeyCode::Down => {
-                            angleX -= delta_time*camera_speed;
-                        }
+    for key in keys.iter() {
+        match key {
+            VirtualKeyCode::W => {
+                cameraZ += delta_time*camera_speed;
+            }
+            VirtualKeyCode::S => {
+                cameraZ -= delta_time*camera_speed;
+            }
+            VirtualKeyCode::A => {
+                cameraX += delta_time*camera_speed;
+            }
+            VirtualKeyCode::D => {
+                cameraX -= delta_time*camera_speed;
+            }
+            VirtualKeyCode::Space => {
+                cameraY += delta_time*camera_speed;
+            }
+            VirtualKeyCode::LShift => {
+                cameraX -= delta_time*camera_speed;
+            }
+            VirtualKeyCode::Left => {
+                angleY += delta_time*camera_speed;
+            }
+            VirtualKeyCode::Up => {
+                angleX += delta_time*camera_speed;
+            }
+            VirtualKeyCode::Right => {
+                angleY -= delta_time*camera_speed;
+            }
+            VirtualKeyCode::Down => {
+                angleX -= delta_time*camera_speed;
+            }
 
-                        // default handler:
-                        _ => {}
-                    }
-                }
+            // default handler:
+            _ => {}
+        }
+    }
+}
 ```
 The movement of the camera is controlled by WSAD, space, LShift and arrow keys, as recommended in instruction.
 
@@ -367,7 +385,8 @@ let camera_projection_matrix: glm::Mat4 =
         100.0,
     );
 
-// The final transformation matrix is a combination of all the previously set transformation matrix
+// The final transformation matrix is a combination of all the previously set 
+// transformation matrix
 let camera_transformation_matrix =
     camera_projection_matrix
     * camera_rotation_matrix_y
