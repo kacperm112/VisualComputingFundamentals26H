@@ -42,6 +42,9 @@ Vertex shaders needed to be modified to pass a vector containing color to the fr
     Triangles with vertices of different colours
 ](images/ass2task1opacity.png)
 
+#### Colours between vertices
+Colours between vertices are an interpolation of colours assigned to each vertex. This creates a smooth gradient, like one seen in the image above.
+
 
 
 ## Task 2: Alpha Blending and Depth
@@ -235,3 +238,142 @@ We know that none of the transformations are rotations, because at least two val
 ![
     Example of rotation
 ](images/ass2task3c.png)
+
+# Task 4: Combinations of Transformations
+## (a) Passing the transformation matrix as an uniform variable
+### main.rs
+```rust
+    unsafe {
+        let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
+        gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
+    }
+```
+### Vertex Shader
+```rust
+#version 430 core
+
+layout (location = 0) in vec4 position;
+layout (location = 1) in vec4 color;
+
+uniform mat4x4 camera_transformation_matrix;
+
+out VS_OUTPUT {
+    vec4 color;
+} OUT;
+
+void main()
+{
+    vec4 newPosition = camera_transformation_matrix*position;
+    gl_Position = newPosition;
+    OUT.color = color;
+}
+```
+
+## (b) Applying projection
+```rust
+    let camera_projection_matrix: glm::Mat4 =
+        glm::perspective(
+            window_aspect_ratio,
+            (std::f32::consts::PI)/2.0,
+            1.0,
+            100.0,
+        );
+
+    // The final transformation matrix is a combination of all the previously set transformation matrix
+    let camera_transformation_matrix =
+        camera_projection_matrix
+        * camera_rotation_matrix_y
+        * camera_rotation_matrix_x
+        * camera_translation_matrix;
+```
+![
+    Triangle with perspective projection
+](images/ass2task4projection.png)
+
+# (c) Creating a camera
+For this task, we have applied a transformation matrix, moving the world around the camera in order to imitate the camera movement.
+
+Movement is stored in variables defined below:
+``` rust
+    let mut cameraX = 0.0;
+    let mut cameraY = 0.0;
+    let mut cameraZ = 0.0;
+    let mut angleX = 0.0;
+    let mut angleY = 0.0;
+```
+
+Key handler has also been added for controlling the motion:
+```rust
+if let Ok(keys) = pressed_keys.lock() {
+                for key in keys.iter() {
+                    match key {
+                        // The `VirtualKeyCode` enum is defined here:
+                        //    https://docs.rs/winit/0.25.0/winit/event/enum.VirtualKeyCode.html
+                        VirtualKeyCode::W => {
+                            cameraZ += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::S => {
+                            cameraZ -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::A => {
+                            cameraX += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::D => {
+                            cameraX -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Space => {
+                            cameraY += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::LShift => {
+                            cameraX -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Left => {
+                            angleY += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Up => {
+                            angleX += delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Right => {
+                            angleY -= delta_time*camera_speed;
+                        }
+                        VirtualKeyCode::Down => {
+                            angleX -= delta_time*camera_speed;
+                        }
+
+                        // default handler:
+                        _ => {}
+                    }
+                }
+```
+The movement of the camera is controlled by WSAD, space, LShift and arrow keys, as recommended in instruction.
+
+### Generating a transformation matrix
+
+```rust
+let mut camera_transformation_matrix : glm::Mat4 = glm::identity();
+let camera_translation_matrix: glm::Mat4 =
+    glm::translation(&glm::vec3(cameraX, cameraY, cameraZ));
+let camera_rotation_matrix_x: glm::Mat4 = 
+    glm::rotation(-angleX, &glm::vec3(1.0, 0.0, 0.0));
+
+let camera_rotation_matrix_y: glm::Mat4 = 
+    glm::rotation(-angleY, &glm::vec3(0.0, 1.0, 0.0));
+
+let camera_projection_matrix: glm::Mat4 =
+    glm::perspective(
+        window_aspect_ratio,
+        (std::f32::consts::PI)/2.0,
+        1.0,
+        100.0,
+    );
+
+// The final transformation matrix is a combination of all the previously set transformation matrix
+let camera_transformation_matrix =
+    camera_projection_matrix
+    * camera_rotation_matrix_y
+    * camera_rotation_matrix_x
+    * camera_translation_matrix;
+
+```
+
+
