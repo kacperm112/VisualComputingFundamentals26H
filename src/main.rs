@@ -15,6 +15,8 @@ use std::{mem, os::raw::c_void, ptr};
 mod shader;
 mod util;
 mod mesh;
+mod scene_graph;
+use scene_graph::SceneNode;
 
 use glm::{Mat3x3, Mat4x4, pi};
 use glutin::event::{
