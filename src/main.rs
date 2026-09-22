@@ -328,7 +328,7 @@ fn main() {
 
         let my_vao3 = unsafe { create_vao(&vertices3_vec_4, &indices3_vec_4) };
 
-        // Assignment 4 Task 1 here
+        // Assignment 3 Task 1 here
         let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
         let vao_ass4 = unsafe { create_vao(&mesh.vertices, &mesh.indices)};
 
