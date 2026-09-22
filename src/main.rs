@@ -244,9 +244,23 @@ fn main() {
         let vao_tail_rotor = unsafe { create_vao(&helicopter_mesh.tail_rotor.vertices, &helicopter_mesh.tail_rotor.indices, &helicopter_mesh.tail_rotor.normals)};
 
         // Scene graph for Assignment 3 Task 2
-        let mut scene_graph = scene_graph::SceneNode::from_vao(vao_terrain, terrain_mesh.indices.len() as i32);
-        let helicopter_node = scene_graph::SceneNode::from_vao(vao_body, helicopter_mesh.body.indices.len() as i32);
-        scene_graph.add_child(&helicopter_node);
+        // let mut scene_graph = scene_graph::SceneNode::from_vao(vao_terrain, terrain_mesh.indices.len() as i32);
+        let mut terrain_node = scene_graph::SceneNode::from_vao(vao_terrain, terrain_mesh.indices.len() as i32);
+        let mut body_node = scene_graph::SceneNode::from_vao(vao_body, helicopter_mesh.body.indices.len() as i32);
+
+        let mut door_node = scene_graph::SceneNode::from_vao(vao_door, helicopter_mesh.door.indices.len() as i32);
+
+        let mut main_rotor_node = scene_graph::SceneNode::from_vao(vao_main_rotor, helicopter_mesh.main_rotor.indices.len() as i32);
+
+        let mut tail_rotor_node = scene_graph::SceneNode::from_vao(vao_tail_rotor, helicopter_mesh.tail_rotor.indices.len() as i32);
+        // scene_graph.add_child(&helicopter_node);
+        let mut scene_graph = scene_graph::SceneNode::new();
+
+        body_node.add_child(&door_node);
+        body_node.add_child(&main_rotor_node);
+        body_node.add_child(&tail_rotor_node);
+        terrain_node.add_child(&body_node);
+        scene_graph.add_child(&terrain_node);
 
         // == // Set up your shaders here
 
