@@ -233,15 +233,20 @@ fn main() {
 
         // == // Set up your VAO around here
         // Assignment 3 Task 1 here
-        let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
-        let vao_ass3 = unsafe { create_vao(&mesh.vertices, &mesh.indices, &mesh.normals)};
+        let terrain_mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
+        let vao_terrain = unsafe { create_vao(&terrain_mesh.vertices, &terrain_mesh.indices, &terrain_mesh.normals)};
 
         // Assignment 3 Task 2 here
-        let helicopter = unsafe { mesh::Helicopter::load("resources/helicopter.obj")};
-        let vao_body = unsafe { create_vao(&helicopter.body.vertices, &helicopter.body.indices, &helicopter.body.normals)};
-        let vao_door = unsafe { create_vao(&helicopter.door.vertices, &helicopter.door.indices, &helicopter.door.normals)};
-        let vao_main_rotor = unsafe { create_vao(&helicopter.main_rotor.vertices, &helicopter.main_rotor.indices, &helicopter.main_rotor.normals)};
-        let vao_tail_rotor = unsafe { create_vao(&helicopter.tail_rotor.vertices, &helicopter.tail_rotor.indices, &helicopter.tail_rotor.normals)};
+        let helicopter_mesh = unsafe { mesh::Helicopter::load("resources/helicopter.obj")};
+        let vao_body = unsafe { create_vao(&helicopter_mesh.body.vertices, &helicopter_mesh.body.indices, &helicopter_mesh.body.normals)};
+        let vao_door = unsafe { create_vao(&helicopter_mesh.door.vertices, &helicopter_mesh.door.indices, &helicopter_mesh.door.normals)};
+        let vao_main_rotor = unsafe { create_vao(&helicopter_mesh.main_rotor.vertices, &helicopter_mesh.main_rotor.indices, &helicopter_mesh.main_rotor.normals)};
+        let vao_tail_rotor = unsafe { create_vao(&helicopter_mesh.tail_rotor.vertices, &helicopter_mesh.tail_rotor.indices, &helicopter_mesh.tail_rotor.normals)};
+
+        // Scene graph for Assignment 3 Task 2
+        let mut scene_graph = scene_graph::SceneNode::from_vao(vao_terrain, terrain_mesh.indices.len() as i32);
+        let helicopter_node = scene_graph::SceneNode::from_vao(vao_body, helicopter_mesh.body.indices.len() as i32);
+        scene_graph.add_child(&helicopter_node);
 
         // == // Set up your shaders here
 
@@ -418,7 +423,7 @@ fn main() {
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    helicopter.body.indices.len() as i32,
+                    helicopter_mesh.body.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
@@ -427,7 +432,7 @@ fn main() {
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    helicopter.door.indices.len() as i32,
+                    helicopter_mesh.door.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
@@ -436,7 +441,7 @@ fn main() {
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    helicopter.main_rotor.indices.len() as i32,
+                    helicopter_mesh.main_rotor.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
@@ -445,16 +450,16 @@ fn main() {
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    helicopter.tail_rotor.indices.len() as i32,
+                    helicopter_mesh.tail_rotor.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
                 
-                gl::BindVertexArray(vao_ass3);
+                gl::BindVertexArray(vao_terrain);
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    mesh.indices.len() as i32,
+                    terrain_mesh.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
