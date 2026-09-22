@@ -236,6 +236,13 @@ fn main() {
         let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
         let vao_ass3 = unsafe { create_vao(&mesh.vertices, &mesh.indices, &mesh.normals)};
 
+        // Assignment 3 Task 2 here
+        let helicopter = unsafe { mesh::Helicopter::load("resources/helicopter.obj")};
+        let vao_body = unsafe { create_vao(&helicopter.body.vertices, &helicopter.body.indices, &helicopter.body.normals)};
+        let vao_door = unsafe { create_vao(&helicopter.door.vertices, &helicopter.door.indices, &helicopter.door.normals)};
+        let vao_main_rotor = unsafe { create_vao(&helicopter.main_rotor.vertices, &helicopter.main_rotor.indices, &helicopter.main_rotor.normals)};
+        let vao_tail_rotor = unsafe { create_vao(&helicopter.tail_rotor.vertices, &helicopter.tail_rotor.indices, &helicopter.tail_rotor.normals)};
+
         // == // Set up your shaders here
 
         // Basic usage of shader helper:
@@ -406,6 +413,43 @@ fn main() {
                 // );
 
                 // Assignment 3 Task 1
+
+                                gl::BindVertexArray(vao_body);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    helicopter.body.indices.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
+
+                gl::BindVertexArray(vao_door);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    helicopter.door.indices.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
+
+                gl::BindVertexArray(vao_main_rotor);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    helicopter.main_rotor.indices.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
+
+                gl::BindVertexArray(vao_tail_rotor);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    helicopter.tail_rotor.indices.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
+                
                 gl::BindVertexArray(vao_ass3);
 
                 gl::DrawElements(
