@@ -256,9 +256,9 @@ fn main() {
 
         // Used to demonstrate keyboard handling for exercise 2.
         let mut _arbitrary_number = 0.0; // feel free to remove
-        let mut cameraX = 250.0;
+        let mut cameraX = 0.0;
         let mut cameraY = 0.0;
-        let mut cameraZ = -500.0;
+        let mut cameraZ = 0.0;
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
