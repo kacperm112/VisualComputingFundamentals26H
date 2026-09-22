@@ -84,23 +84,23 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
     // Position: x, y, z, 1
     gl::VertexAttribPointer(
         0,
-        4,
+        3,
         gl::FLOAT,
         gl::FALSE,
-        8 * size_of::<f32>(), // 8 because each vertex contains x,y,x,1,r,g,b,alpha attributes and distanse to next is 12 bytes
+        3 * size_of::<f32>(), // 8 because each vertex contains x,y,x,1,r,g,b,alpha attributes and distanse to next is 12 bytes
         ptr::null(),
     );
 
-    gl::EnableVertexAttribArray(1);
-    // Color
-    gl::VertexAttribPointer(
-        1,
-        4,
-        gl::FLOAT,
-        gl::FALSE,
-        (8 * size_of::<f32>()) as gl::types::GLint,
-        (4 * size_of::<f32>()) as *const gl::types::GLvoid,
-    );
+    // gl::EnableVertexAttribArray(1);
+    // // Color
+    // gl::VertexAttribPointer(
+    //     1,
+    //     4,
+    //     gl::FLOAT,
+    //     gl::FALSE,
+    //     (8 * size_of::<f32>()) as gl::types::GLint,
+    //     (4 * size_of::<f32>()) as *const gl::types::GLvoid,
+    // );
 
     // Index buffer
     let mut index_buffer = 0;
@@ -330,7 +330,7 @@ fn main() {
 
         // Assignment 3 Task 1 here
         let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
-        let vao_ass4 = unsafe { create_vao(&mesh.vertices, &mesh.indices)};
+        let vao_ass3 = unsafe { create_vao(&mesh.vertices, &mesh.indices)};
 
         // == // Set up your shaders here
 
@@ -356,7 +356,7 @@ fn main() {
         let mut _arbitrary_number = 0.0; // feel free to remove
         let mut cameraX = 0.0;
         let mut cameraY = 0.0;
-        let mut cameraZ = 0.0;
+        let mut cameraZ = -1000.0;
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
@@ -502,7 +502,7 @@ fn main() {
                 // );
 
                 // Assignment 3 Task 1
-                gl::BindVertexArray(vao_ass4);
+                gl::BindVertexArray(vao_ass3);
 
                 gl::DrawElements(
                     gl::TRIANGLES,
