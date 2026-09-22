@@ -60,7 +60,7 @@ fn offset<T>(n: u32) -> *const c_void {
 // ptr::null()
 
 // == // Generate your VAO here
-unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
+unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>, normals: &Vec<f32>) -> u32 {
     // Implemented: Generated vao
     let mut vao = 0;
 
@@ -91,16 +91,29 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>) -> u32 {
         ptr::null(),
     );
 
-    // gl::EnableVertexAttribArray(1);
-    // // Color
-    // gl::VertexAttribPointer(
-    //     1,
-    //     4,
-    //     gl::FLOAT,
-    //     gl::FALSE,
-    //     (8 * size_of::<f32>()) as gl::types::GLint,
-    //     (4 * size_of::<f32>()) as *const gl::types::GLvoid,
-    // );
+    // Normals buffer
+
+    let mut normals_vao = 0;
+    gl::GenBuffers(1, &mut normals_vao);
+    gl::BindBuffer(gl::ARRAY_BUFFER, normals_vao);
+
+    gl::BufferData(
+        gl::ARRAY_BUFFER,
+        byte_size_of_array(vertices),
+        vertices.as_ptr() as *const c_void, // c_void just means pointer to generic data
+        gl::STATIC_DRAW,
+    );
+
+    gl::EnableVertexAttribArray(1);
+
+    gl::VertexAttribPointer(
+        1,
+        3,
+        gl::FLOAT,
+        gl::FALSE,
+        3 * size_of::<f32>(), // 8 because each vertex contains x,y,x,1,r,g,b,alpha attributes and distanse to next is 12 bytes
+        ptr::null(),
+    );
 
     // Index buffer
     let mut index_buffer = 0;
@@ -217,120 +230,9 @@ fn main() {
         }
 
         // == // Set up your VAO around here
-
-        // Triangles for Assignment 1 Task 1
-        // here we can add more triangles, simply in the same vec
-        let vertices_vec_4: Vec<f32> = vec![
-            -0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            0.6, -0.6, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            0.0, 0.6, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            -0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            0.6, 0.6, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            0.0, 0.9, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            -0.8, -0.8, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            -0.4, -0.8, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            -0.6, -0.65, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            -0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 
-            0.5, 0.4, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5,
-        ];
-
-        // adding more triangles, we also have to add more indices (3 for each)
-        let indices_vec_4: Vec<u32> = vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 3, 1, 10, 2];
-
-        let my_vao = unsafe { create_vao(&vertices_vec_4, &indices_vec_4) };
-
-        // Triangles for Assignment 1 Task 2
-        // let vertices2_vec_4: Vec<f32> = vec![
-        //     0.6, -0.8, -1.2, 1.0, 0.0, 0.0, 1.0, 1.0, 
-        //     0.0, 0.4, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
-        //     -0.8, -0.2, 1.2, 1.0, 0.0, 0.0, 1.0, 1.0,
-        // ];
-
-        let vertices2_vec_4: Vec<f32> = vec![
-            0.0, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
-            0.5, 0.0, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-            0.5, 0.5, -2.0, 1.0, 0.0, 0.0, 1.0, 1.0, 
-        ];
-
-        // adding more triangles, we also have to add more indices (3 for each)
-        let indices2_vec_4: Vec<u32> = vec![0, 1, 2];
-
-        let my_vao2 = unsafe { create_vao(&vertices2_vec_4, &indices2_vec_4) };
-
-        // Triangles for Assignment 2 Task 2
-        // let vertices3_vec_4: Vec<f32> = vec![
-        //     -0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.0,  0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     -0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.6, -0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.0,  0.6, 0.9, 1.0, 1.0, 0.0, 0.0, 0.5,
-
-        //     -0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.0, 0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     -0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.4, -0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.0, 0.4, 0.5, 1.0, 0.0, 1.0, 0.0, 0.5,
-
-        //     -0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.0, 0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     -0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.2, -0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.0, 0.2, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5,
-        // ];
-        let vertices3_vec_4: Vec<f32> = vec![
-            -0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            0.0, 0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            -0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            0.0, 0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            -0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
-            0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
-            0.0, 0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5,
-            -0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            0.6, -0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            0.0, 0.6, 0.0, 1.0, 0.0, 0.0, 1.0, 0.5, 
-            -0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            0.4, -0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            0.0, 0.4, 0.5, 1.0, 1.0, 0.0, 0.0, 0.5, 
-            -0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
-            0.2, -0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5, 
-            0.0, 0.2, 0.9, 1.0, 0.0, 0.1, 0.0, 0.5,
-        ];
-        // let vertices3_vec_4: Vec<f32> = vec![
-        //     -0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.0,  0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     -0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.6, -0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-        //     0.0,  0.6, 0.9, 1.0, 0.0, 1.0, 0.0, 0.5,
-
-        //     -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     -0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.4, -0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-        //     0.0, 0.4, 0.5, 1.0, 0.0, 0.0, 1.0, 0.5,
-
-        //     -0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.0, 0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     -0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.2, -0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        //     0.0, 0.2, 0.0, 1.0, 1.0, 0.0, 0.0, 0.5,
-        // ];
-
-        // adding more triangles, we also have to add more indices (3 for each)
-        let indices3_vec_4: Vec<u32> = vec![6, 7, 8, 3, 4, 5, 0, 1, 2];
-
-        let my_vao3 = unsafe { create_vao(&vertices3_vec_4, &indices3_vec_4) };
-
         // Assignment 3 Task 1 here
         let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
-        let vao_ass3 = unsafe { create_vao(&mesh.vertices, &mesh.indices)};
+        let vao_ass3 = unsafe { create_vao(&mesh.vertices, &mesh.indices, &mesh.normals)};
 
         // == // Set up your shaders here
 
