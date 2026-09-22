@@ -31,6 +31,7 @@ This is a HTML-style comment, not visible in the final PDF.
 
 ## (c) 
 ![A colorful crater](images/Assignment3Task1ColorfulCrater.png)
+
 The camera coordinates to achieve this:
 ```rust
 let mut cameraX = 250.0;
@@ -41,7 +42,7 @@ let mut angleY = 0.0;
 ```
 
 ## (d) 
-M
+![Correctly lit moon surface](images/Assignment3Task1CorrectlyLitMoonSurface.png)
 
 
 # Task 2: Helicopter Parenting
