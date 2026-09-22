@@ -99,8 +99,8 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>, normals: &Vec<f32>
 
     gl::BufferData(
         gl::ARRAY_BUFFER,
-        byte_size_of_array(vertices),
-        vertices.as_ptr() as *const c_void, // c_void just means pointer to generic data
+        byte_size_of_array(normals),
+        normals.as_ptr() as *const c_void, // c_void just means pointer to generic data
         gl::STATIC_DRAW,
     );
 
