@@ -356,7 +356,7 @@ fn main() {
         let mut _arbitrary_number = 0.0; // feel free to remove
         let mut cameraX = 0.0;
         let mut cameraY = 0.0;
-        let mut cameraZ = -1000.0;
+        let mut cameraZ = 0.0;
         let mut angleX = 0.0;
         let mut angleY = 0.0;
 
@@ -506,7 +506,7 @@ fn main() {
 
                 gl::DrawElements(
                     gl::TRIANGLES,
-                    indices_vec_4.len() as i32,
+                    mesh.indices.len() as i32,
                     gl::UNSIGNED_INT,
                     ptr::null(),
                 );
