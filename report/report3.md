@@ -30,7 +30,15 @@ This is a HTML-style comment, not visible in the final PDF.
 # Task 1: More plygons than you can shake a stick at
 
 ## (c) 
-M
+![A colorful crater](images/Assignment3Task1ColorfulCrater.png)
+The camera coordinates to achieve this:
+```rust
+let mut cameraX = 250.0;
+let mut cameraY = 0.0;
+let mut cameraZ = -500.0;
+let mut angleX = 0.0;
+let mut angleY = 0.0;
+```
 
 ## (d) 
 M
