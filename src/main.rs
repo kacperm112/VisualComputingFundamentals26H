@@ -14,6 +14,7 @@ use std::{mem, os::raw::c_void, ptr};
 
 mod shader;
 mod util;
+mod mesh;
 
 use glm::{Mat3x3, Mat4x4, pi};
 use glutin::event::{
@@ -327,6 +328,10 @@ fn main() {
 
         let my_vao3 = unsafe { create_vao(&vertices3_vec_4, &indices3_vec_4) };
 
+        // Assignment 4 Task 1 here
+        let mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
+        let vao_ass4 = unsafe { create_vao(&mesh.vertices, &mesh.indices)};
+
         // == // Set up your shaders here
 
         // Basic usage of shader helper:
@@ -453,7 +458,7 @@ fn main() {
                     window_aspect_ratio,
                     (std::f32::consts::PI)/2.0,
                     1.0,
-                    100.0,
+                    1000.0,
                 );
 
             // The final transformation matrix is a combination of all the previously set transformation matrix
@@ -487,24 +492,24 @@ fn main() {
                 // );
 
                 // Assignment 1 Task 2
-                gl::BindVertexArray(my_vao2);
-
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    indices2_vec_4.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
-
-                // // Assignment 2 Task 1
-                // gl::BindVertexArray(my_vao3);
+                // gl::BindVertexArray(my_vao2);
 
                 // gl::DrawElements(
                 //     gl::TRIANGLES,
-                //     indices_vec_4.len() as i32,
+                //     indices2_vec_4.len() as i32,
                 //     gl::UNSIGNED_INT,
                 //     ptr::null(),
                 // );
+
+                // Assignment 3 Task 1
+                gl::BindVertexArray(vao_ass4);
+
+                gl::DrawElements(
+                    gl::TRIANGLES,
+                    indices_vec_4.len() as i32,
+                    gl::UNSIGNED_INT,
+                    ptr::null(),
+                );
             }
 
             // Display the new color buffer on the display
