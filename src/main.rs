@@ -274,6 +274,11 @@ fn main() {
         main_rotor_node.rotation = glm::vec3(0.0, 0.0, 0.0);
         tail_rotor_node.rotation = glm::vec3(0.0, 0.0, 0.0);
 
+        // Setting the reference points for every helicopter node
+        door_node.reference_point = glm::vec3(1.0, 0.0, 0.0);
+        main_rotor_node.reference_point = glm::vec3(0.0, 0.0, 2.0);
+        tail_rotor_node.reference_point = glm::vec3(0.35, 2.3, 10.4);
+
         // == // Set up your shaders here
 
         // Basic usage of shader helper:
