@@ -140,17 +140,19 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>, normals: &Vec<f32>
         // logic before drawing the node
         
         // check if node drawable, set uniforms, bind vao, draw vao
-        let loc = shader.get_uniform_location("camera_transformation_matrix");
-        gl::UniformMatrix4fv(loc, 1, gl::FALSE, view_projection_matrix.as_ptr());
+        if node.index_count != -1 {
+            let loc = shader.get_uniform_location("camera_transformation_matrix");
+            gl::UniformMatrix4fv(loc, 1, gl::FALSE, view_projection_matrix.as_ptr());
 
-        gl::BindVertexArray(node.vao_id);
+            gl::BindVertexArray(node.vao_id);
 
-        gl::DrawElements(
-            gl::TRIANGLES,
-            node.index_count as i32,
-            gl::UNSIGNED_INT,
-            ptr::null(),
-        );
+            gl::DrawElements(
+                gl::TRIANGLES,
+                node.index_count as i32,
+                gl::UNSIGNED_INT,
+                ptr::null(),
+            );
+        }
 
         // Recurse
         for child in &node.children {
@@ -445,28 +447,6 @@ fn main() {
                 // Clear the color and depth buffers
                 gl::ClearColor(0.035, 0.046, 0.078, 1.0); // night sky
                 gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-                // == // Issue the necessary gl:: commands to draw your scene here
-                // New Implemented
-                // Assignment 1 Task 1
-
-                // gl::BindVertexArray(my_vao);
-
-                // gl::DrawElements(
-                //     gl::TRIANGLES,
-                //     indices_vec_4.len() as i32,
-                //     gl::UNSIGNED_INT,
-                //     ptr::null(),
-                // );
-
-                // Assignment 1 Task 2
-                // gl::BindVertexArray(my_vao2);
-
-                // gl::DrawElements(
-                //     gl::TRIANGLES,
-                //     indices2_vec_4.len() as i32,
-                //     gl::UNSIGNED_INT,
-                //     ptr::null(),
-                // );
 
                 // // Assignment 3 Task 1
 
@@ -516,7 +496,7 @@ fn main() {
                 // );
                 
                 // draw scene here
-                draw_scene(&terrain_node, &camera_transformation_matrix, &glm::identity(), &simple_shader);
+                draw_scene(&scene_graph, &camera_transformation_matrix, &glm::identity(), &simple_shader);
                
             }
 
