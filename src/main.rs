@@ -132,6 +132,32 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>, normals: &Vec<f32>
     vao
 }
 
+    unsafe fn draw_scene(node: &scene_graph::SceneNode,
+        view_projection_matrix: &glm::Mat4,
+        transformation_so_far: &glm::Mat4,
+        shader: &shader::Shader)
+    {
+        // logic before drawing the node
+        
+        // check if node drawable, set uniforms, bind vao, draw vao
+        let loc = shader.get_uniform_location("camera_transformation_matrix");
+        gl::UniformMatrix4fv(loc, 1, gl::FALSE, view_projection_matrix.as_ptr());
+
+        gl::BindVertexArray(node.vao_id);
+
+        gl::DrawElements(
+            gl::TRIANGLES,
+            node.index_count as i32,
+            gl::UNSIGNED_INT,
+            ptr::null(),
+        );
+
+        // Recurse
+        for child in &node.children {
+            draw_scene(&**child, view_projection_matrix, transformation_so_far, &shader);
+        }
+    }
+
 fn main() {
     // Set up the necessary objects to deal with windows and event handling
     let el = glutin::event_loop::EventLoop::new();
@@ -233,11 +259,11 @@ fn main() {
 
         // == // Set up your VAO around here
         // Assignment 3 Task 1 here
-        let terrain_mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
+        let terrain_mesh = mesh::Terrain::load("resources/lunarsurface.obj");
         let vao_terrain = unsafe { create_vao(&terrain_mesh.vertices, &terrain_mesh.indices, &terrain_mesh.normals)};
 
         // Assignment 3 Task 2 here
-        let helicopter_mesh = unsafe { mesh::Helicopter::load("resources/helicopter.obj")};
+        let helicopter_mesh = mesh::Helicopter::load("resources/helicopter.obj");
         let vao_body = unsafe { create_vao(&helicopter_mesh.body.vertices, &helicopter_mesh.body.indices, &helicopter_mesh.body.normals)};
         let vao_door = unsafe { create_vao(&helicopter_mesh.door.vertices, &helicopter_mesh.door.indices, &helicopter_mesh.door.normals)};
         let vao_main_rotor = unsafe { create_vao(&helicopter_mesh.main_rotor.vertices, &helicopter_mesh.main_rotor.indices, &helicopter_mesh.main_rotor.normals)};
@@ -416,15 +442,9 @@ fn main() {
                 * camera_translation_matrix;
 
             unsafe {
-                let loc = simple_shader.get_uniform_location("camera_transformation_matrix");
-                gl::UniformMatrix4fv(loc, 1, gl::FALSE, camera_transformation_matrix.as_ptr());
-            }
-
-            unsafe {
                 // Clear the color and depth buffers
                 gl::ClearColor(0.035, 0.046, 0.078, 1.0); // night sky
                 gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-
                 // == // Issue the necessary gl:: commands to draw your scene here
                 // New Implemented
                 // Assignment 1 Task 1
@@ -448,52 +468,56 @@ fn main() {
                 //     ptr::null(),
                 // );
 
-                // Assignment 3 Task 1
+                // // Assignment 3 Task 1
 
-                                gl::BindVertexArray(vao_body);
+                // gl::BindVertexArray(vao_body);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    helicopter_mesh.body.indices.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     helicopter_mesh.body.indices.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
 
-                gl::BindVertexArray(vao_door);
+                // gl::BindVertexArray(vao_door);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    helicopter_mesh.door.indices.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     helicopter_mesh.door.indices.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
 
-                gl::BindVertexArray(vao_main_rotor);
+                // gl::BindVertexArray(vao_main_rotor);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    helicopter_mesh.main_rotor.indices.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     helicopter_mesh.main_rotor.indices.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
 
-                gl::BindVertexArray(vao_tail_rotor);
+                // gl::BindVertexArray(vao_tail_rotor);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    helicopter_mesh.tail_rotor.indices.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     helicopter_mesh.tail_rotor.indices.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
                 
-                gl::BindVertexArray(vao_terrain);
+                // gl::BindVertexArray(vao_terrain);
 
-                gl::DrawElements(
-                    gl::TRIANGLES,
-                    terrain_mesh.indices.len() as i32,
-                    gl::UNSIGNED_INT,
-                    ptr::null(),
-                );
+                // gl::DrawElements(
+                //     gl::TRIANGLES,
+                //     terrain_mesh.indices.len() as i32,
+                //     gl::UNSIGNED_INT,
+                //     ptr::null(),
+                // );
+                
+                // draw scene here
+                draw_scene(&scene_graph, &camera_transformation_matrix, &glm::identity(), &simple_shader);
+               
             }
 
             // Display the new color buffer on the display
