@@ -152,7 +152,7 @@ unsafe fn create_vao(vertices: &Vec<f32>, indices: &Vec<u32>, normals: &Vec<f32>
             ptr::null(),
         );
 
-        // recourse
+        // Recurse
         for child in &node.children {
             draw_scene(&**child, view_projection_matrix, transformation_so_far, &shader);
         }
@@ -259,11 +259,11 @@ fn main() {
 
         // == // Set up your VAO around here
         // Assignment 3 Task 1 here
-        let terrain_mesh = unsafe { mesh::Terrain::load("resources/lunarsurface.obj") };
+        let terrain_mesh = mesh::Terrain::load("resources/lunarsurface.obj");
         let vao_terrain = unsafe { create_vao(&terrain_mesh.vertices, &terrain_mesh.indices, &terrain_mesh.normals)};
 
         // Assignment 3 Task 2 here
-        let helicopter_mesh = unsafe { mesh::Helicopter::load("resources/helicopter.obj")};
+        let helicopter_mesh = mesh::Helicopter::load("resources/helicopter.obj");
         let vao_body = unsafe { create_vao(&helicopter_mesh.body.vertices, &helicopter_mesh.body.indices, &helicopter_mesh.body.normals)};
         let vao_door = unsafe { create_vao(&helicopter_mesh.door.vertices, &helicopter_mesh.door.indices, &helicopter_mesh.door.normals)};
         let vao_main_rotor = unsafe { create_vao(&helicopter_mesh.main_rotor.vertices, &helicopter_mesh.main_rotor.indices, &helicopter_mesh.main_rotor.normals)};
