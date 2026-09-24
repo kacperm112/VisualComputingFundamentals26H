@@ -516,7 +516,7 @@ fn main() {
                 // );
                 
                 // draw scene here
-                draw_scene(&scene_graph, &camera_transformation_matrix, &glm::identity(), &simple_shader);
+                draw_scene(&terrain_node, &camera_transformation_matrix, &glm::identity(), &simple_shader);
                
             }
 
