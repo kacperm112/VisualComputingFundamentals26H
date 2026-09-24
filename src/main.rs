@@ -262,6 +262,18 @@ fn main() {
         terrain_node.add_child(&body_node);
         scene_graph.add_child(&terrain_node);
 
+        // Setting the initial positions and rotations of every helicopter node
+        body_node.position = glm::vec3(0.0, 0.0, 0.0);
+        door_node.position = glm::vec3(0.0, 0.0, 0.0);
+        main_rotor_node.position = glm::vec3(0.0, 0.0, 0.0);
+        tail_rotor_node.position = glm::vec3(0.0, 0.0, 0.0);
+
+
+        body_node.rotation = glm::vec3(0.0, 0.0, 0.0);
+        door_node.rotation = glm::vec3(0.0, 0.0, 0.0);
+        main_rotor_node.rotation = glm::vec3(0.0, 0.0, 0.0);
+        tail_rotor_node.rotation = glm::vec3(0.0, 0.0, 0.0);
+
         // == // Set up your shaders here
 
         // Basic usage of shader helper:
